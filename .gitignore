@@ -1,0 +1,29 @@
+# Environments & Python
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.mypy_cache/
+.coverage
+.venv/
+venv/
+env/
+ENV/
+
+# Secrets & Config
+.env
+.env*.local
+secrets.json
+credentials.json
+
+# Operating System files
+Thumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+.DS_Store
+
+# IDE & Editor
+.vscode/
+.idea/
+*.swp
+*.swo

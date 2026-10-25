@@ -1,0 +1,97 @@
+# ==============================================
+# CLOTHING SHOP PROFITABILITY — .gitignore
+# ==============================================
+
+# ---------------------------------
+# DỮ LIỆU KHÁCH HÀNG (TUYỆT ĐỐI KHÔNG PUSH)
+# ---------------------------------
+data/raw/
+clients/
+*.xlsx
+*.xls
+*.csv
+
+# Cho phép các file mẫu & tham chiếu (bỏ comment nếu muốn track)
+!data/reference/*.csv
+# !reports/templates/
+# !analysis/profitability_model.xlsx
+
+# ---------------------------------
+# BÁO CÁO ĐÃ GIAO (thông tin nhạy cảm)
+# ---------------------------------
+reports/delivered/
+
+# ---------------------------------
+# PYTHON
+# ---------------------------------
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+.venv/
+ENV/
+.env
+*.egg-info/
+dist/
+build/
+.pytest_cache/
+.mypy_cache/
+
+# ---------------------------------
+# JUPYTER NOTEBOOK
+# ---------------------------------
+.ipynb_checkpoints/
+*.ipynb
+
+# ---------------------------------
+# HỆ ĐIỀU HÀNH
+# ---------------------------------
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+*.lnk
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+.Spotlight-V100
+.Trashes
+
+# ---------------------------------
+# EDITOR & IDE
+# ---------------------------------
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.history/
+
+# ---------------------------------
+# FILE TẠM & LOGS
+# ---------------------------------
+*.log
+*.tmp
+*.bak
+*.backup
+~$*
+logs/
+temp/
+tmp/
+
+# ---------------------------------
+# CREDENTIALS & BÍ MẬT
+# ---------------------------------
+.env
+.env.local
+secrets.json
+credentials.json
+config.local.*

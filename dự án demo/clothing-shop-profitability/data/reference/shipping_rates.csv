@@ -1,0 +1,7 @@
+weight_range_kg,zone,shipping_fee_vnd,note
+0-0.5,Nội thành,15000,Giao hàng nhanh
+0-0.5,Ngoại thành,20000,Giao hàng tiêu chuẩn
+0.5-1,Nội thành,20000,Giao hàng nhanh
+0.5-1,Ngoại thành,25000,Giao hàng tiêu chuẩn
+1-2,Nội thành,25000,Giao hàng nhanh
+1-2,Ngoại thành,35000,Giao hàng tiêu chuẩn

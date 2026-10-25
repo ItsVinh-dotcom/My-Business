@@ -1,0 +1,7 @@
+# Clothing Shop Profitability — Python Dependencies
+# Install: pip install -r requirements.txt
+
+pandas>=2.0
+openpyxl>=3.1          # Đọc file Excel (.xlsx) export từ Shopee/TikTok
+xlrd>=2.0              # Đọc file Excel cũ (.xls) nếu cần
+pytest>=7.0            # Chạy unit tests

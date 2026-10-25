@@ -1,0 +1,1986 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shop Analytics VN — Phân Tích Lợi Nhuận Cho Chủ Shop Online</title>
+    <meta name="description" content="Dịch vụ phân tích lợi nhuận chuyên nghiệp cho chủ shop quần áo online trên Shopee, TikTok Shop. Biết rõ sản phẩm nào có lãi, sản phẩm nào đang lỗ.">
+    <meta name="theme-color" content="#070b14">
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="vi_VN">
+    <meta property="og:title" content="Bạn bán hàng có thực sự có lãi? — Shop Analytics VN">
+    <meta property="og:description" content="Phí sàn 2026 đã ăn 17–22% doanh thu. Biết chính xác lãi ròng từng sản phẩm trên Shopee & TikTok Shop sau khi trừ hết giá vốn, phí sàn, ship, ads.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%236366f1'/><rect x='22' y='52' width='14' height='28' rx='3' fill='white'/><rect x='43' y='36' width='14' height='44' rx='3' fill='white'/><rect x='64' y='20' width='14' height='60' rx='3' fill='white'/></svg>">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        /* ══════════════════════════════════════════════════════════════
+           RESET & BASE
+           ══════════════════════════════════════════════════════════════ */
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            /* Dark hero colors */
+            --hero-bg: #070b14;
+            --hero-bg2: #0f1629;
+
+            /* Light section colors */
+            --light-bg: #f8fafc;
+            --white: #ffffff;
+            --light-border: #e2e8f0;
+            --light-border-soft: #f1f5f9;
+
+            /* Text */
+            --text-dark: #0f172a;
+            --text-body: #475569;
+            --text-muted: #94a3b8;
+            --text-white: #f1f5f9;
+            --text-white-secondary: #cbd5e1;
+
+            /* Accent */
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --primary-light: #818cf8;
+            --primary-glow: rgba(99,102,241,0.15);
+            --primary-glow-strong: rgba(99,102,241,0.25);
+
+            --green: #10b981;
+            --green-light: #34d399;
+            --green-bg: rgba(16,185,129,0.08);
+            --orange: #f59e0b;
+            --orange-bg: rgba(245,158,11,0.08);
+            --red: #ef4444;
+            --blue: #3b82f6;
+            --cyan: #06b6d4;
+
+            /* Misc */
+            --radius: 16px;
+            --radius-sm: 10px;
+            --radius-lg: 24px;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.06);
+            --shadow: 0 4px 20px rgba(0,0,0,0.06);
+            --shadow-lg: 0 12px 40px rgba(0,0,0,0.08);
+            --shadow-xl: 0 20px 60px rgba(0,0,0,0.1);
+
+            --font: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: var(--font);
+            color: var(--text-body);
+            line-height: 1.7;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+        }
+
+        img { max-width: 100%; display: block; }
+        a { text-decoration: none; color: inherit; }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* ══════════════════════════════════════════════════════════════
+           NAVIGATION
+           ══════════════════════════════════════════════════════════════ */
+        .nav {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 1000;
+            padding: 16px 0;
+            transition: all 0.3s ease;
+        }
+        .nav.scrolled {
+            background: rgba(7,11,20,0.92);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+            padding: 10px 0;
+        }
+        .nav .container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .nav__logo {
+            font-size: 20px;
+            font-weight: 800;
+            color: var(--text-white);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .nav__logo-icon {
+            width: 32px; height: 32px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        .nav__links {
+            display: flex;
+            align-items: center;
+            gap: 32px;
+            list-style: none;
+        }
+        .nav__links a {
+            color: var(--text-white-secondary);
+            font-size: 14px;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+        .nav__links a:hover { color: white; }
+        .nav__cta {
+            padding: 10px 24px;
+            background: var(--primary);
+            color: white !important;
+            border-radius: 100px;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.25s ease;
+            box-shadow: 0 4px 15px rgba(99,102,241,0.3);
+        }
+        .nav__cta:hover {
+            background: var(--primary-dark);
+            transform: translateY(-1px);
+            box-shadow: 0 6px 20px rgba(99,102,241,0.4);
+        }
+
+        /* Hamburger button & Mobile menu */
+        .nav__toggle {
+            display: none;
+            background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(255,255,255,0.12);
+            cursor: pointer;
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            color: white;
+            padding: 0;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+        }
+        .nav__toggle:hover {
+            background: rgba(255,255,255,0.12);
+        }
+        .nav__toggle-box {
+            width: 20px;
+            height: 14px;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .nav__toggle-bar {
+            display: block;
+            width: 100%;
+            height: 2px;
+            background: white;
+            border-radius: 2px;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .nav__toggle.active .nav__toggle-bar:nth-child(1) {
+            transform: translateY(6px) rotate(45deg);
+        }
+        .nav__toggle.active .nav__toggle-bar:nth-child(2) {
+            opacity: 0;
+            transform: scaleX(0);
+        }
+        .nav__toggle.active .nav__toggle-bar:nth-child(3) {
+            transform: translateY(-6px) rotate(-45deg);
+        }
+
+        .nav__mobile-drawer {
+            position: fixed;
+            top: 68px; left: 0; right: 0;
+            background: rgba(7, 11, 20, 0.98);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+            padding: 20px 24px 28px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            transform: translateY(-130%);
+            opacity: 0;
+            pointer-events: none;
+            transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.25s ease;
+            z-index: 998;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+        }
+        .nav__mobile-drawer.open {
+            transform: translateY(0);
+            opacity: 1;
+            pointer-events: auto;
+        }
+        .nav__mobile-drawer a {
+            color: var(--text-white-secondary);
+            font-size: 15px;
+            font-weight: 500;
+            padding: 10px 14px;
+            border-radius: 8px;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .nav__mobile-drawer a:hover {
+            color: white;
+            background: rgba(255,255,255,0.06);
+        }
+        .nav__mobile-drawer .nav__mobile-cta {
+            margin-top: 8px;
+            background: var(--primary);
+            color: white !important;
+            text-align: center;
+            justify-content: center;
+            font-weight: 600;
+            padding: 12px;
+            border-radius: 100px;
+            box-shadow: 0 4px 15px rgba(99,102,241,0.35);
+        }
+
+        @media (max-width: 768px) {
+            .nav__links { display: none; }
+            .nav__toggle { display: inline-flex; }
+            .nav__logo { font-size: 17px; }
+        }
+
+        /* Floating Zalo button */
+        .zalo-float {
+            position: fixed;
+            right: 20px; bottom: 20px;
+            z-index: 999;
+            display: flex; align-items: center; gap: 8px;
+            padding: 12px 20px 12px 14px;
+            background: #0068ff;
+            color: white;
+            font-weight: 700;
+            font-size: 15px;
+            border-radius: 100px;
+            box-shadow: 0 8px 30px rgba(0,104,255,0.4);
+            opacity: 0; transform: translateY(20px);
+            pointer-events: none;
+            transition: opacity 0.3s, transform 0.3s;
+        }
+        .zalo-float.show { opacity: 1; transform: none; pointer-events: auto; }
+        .zalo-float:hover { background: #0057d9; }
+        .zalo-float__icon {
+            width: 30px; height: 30px; border-radius: 50%;
+            background: white; color: #0068ff;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 11px; font-weight: 900;
+        }
+        @media (max-width: 480px) { .zalo-float__text { display: none; } .zalo-float { padding: 12px; } }
+
+        /* ══════════════════════════════════════════════════════════════
+           HERO SECTION (DARK)
+           ══════════════════════════════════════════════════════════════ */
+        .hero {
+            position: relative;
+            background: var(--hero-bg);
+            padding: 160px 0 100px;
+            overflow: hidden;
+            min-height: 90vh;
+            display: flex;
+            align-items: center;
+        }
+        .hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(ellipse 70% 50% at 30% 20%, rgba(99,102,241,0.12) 0%, transparent 60%),
+                radial-gradient(ellipse 50% 40% at 80% 80%, rgba(6,182,212,0.08) 0%, transparent 50%),
+                radial-gradient(ellipse 40% 30% at 60% 40%, rgba(16,185,129,0.06) 0%, transparent 50%);
+            pointer-events: none;
+        }
+        /* Grid background */
+        .hero::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+            background-size: 60px 60px;
+            pointer-events: none;
+        }
+
+        .hero .container {
+            position: relative;
+            z-index: 2;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 64px;
+            align-items: center;
+        }
+
+        .hero__badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 16px;
+            background: var(--primary-glow);
+            border: 1px solid rgba(99,102,241,0.25);
+            border-radius: 100px;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--primary-light);
+            margin-bottom: 24px;
+            animation: fadeUp 0.6s ease-out;
+        }
+        .hero__badge::before {
+            content: '';
+            width: 6px; height: 6px;
+            background: var(--green-light);
+            border-radius: 50%;
+            animation: pulse-dot 2s infinite;
+        }
+        @keyframes pulse-dot {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.4; }
+        }
+
+        .hero__title {
+            font-size: clamp(36px, 5vw, 56px);
+            font-weight: 900;
+            line-height: 1.1;
+            color: white;
+            margin-bottom: 20px;
+            letter-spacing: -1px;
+            animation: fadeUp 0.6s ease-out 0.1s backwards;
+        }
+        .hero__title span {
+            background: linear-gradient(135deg, var(--primary-light), var(--cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero__subtitle {
+            font-size: 18px;
+            color: var(--text-white-secondary);
+            margin-bottom: 36px;
+            line-height: 1.8;
+            max-width: 520px;
+            animation: fadeUp 0.6s ease-out 0.2s backwards;
+        }
+
+        .hero__actions {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+            animation: fadeUp 0.6s ease-out 0.3s backwards;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 16px 32px;
+            border-radius: 100px;
+            font-family: var(--font);
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            transition: all 0.25s ease;
+        }
+        .btn--primary {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            box-shadow: 0 8px 30px rgba(99,102,241,0.35);
+        }
+        .btn--primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 40px rgba(99,102,241,0.45);
+        }
+        .btn--ghost {
+            background: rgba(255,255,255,0.06);
+            color: var(--text-white-secondary);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .btn--ghost:hover {
+            background: rgba(255,255,255,0.1);
+            color: white;
+        }
+
+        /* Dashboard mockup in hero */
+        .hero__visual {
+            position: relative;
+            animation: fadeUp 0.8s ease-out 0.4s backwards;
+        }
+        .hero__mockup {
+            background: #111827;
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: var(--radius-lg);
+            padding: 24px;
+            box-shadow: 0 30px 80px rgba(0,0,0,0.5);
+            transform: perspective(1000px) rotateY(-5deg) rotateX(2deg);
+            transition: transform 0.5s ease;
+        }
+        .hero__mockup:hover {
+            transform: perspective(1000px) rotateY(0deg) rotateX(0deg);
+        }
+        .mockup__bar {
+            display: flex;
+            gap: 6px;
+            margin-bottom: 16px;
+        }
+        .mockup__dot {
+            width: 10px; height: 10px;
+            border-radius: 50%;
+        }
+        .mockup__dot:nth-child(1) { background: #ef4444; }
+        .mockup__dot:nth-child(2) { background: #f59e0b; }
+        .mockup__dot:nth-child(3) { background: #22c55e; }
+
+        .mockup__kpis {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-bottom: 14px;
+        }
+        .mockup__kpi {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 10px;
+            padding: 12px;
+        }
+        .mockup__kpi-label {
+            font-size: 9px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .mockup__kpi-value {
+            font-size: 18px;
+            font-weight: 700;
+            color: white;
+            margin-top: 4px;
+        }
+        .mockup__kpi-value.green { color: var(--green-light); }
+        .mockup__kpi-value.orange { color: var(--orange); }
+
+        .mockup__chart {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 10px;
+            padding: 16px;
+            height: 140px;
+            position: relative;
+            overflow: hidden;
+        }
+        .mockup__chart-title {
+            font-size: 10px;
+            color: var(--text-muted);
+            margin-bottom: 10px;
+        }
+        .mockup__bars {
+            display: flex;
+            align-items: flex-end;
+            gap: 8px;
+            height: 90px;
+            padding-top: 10px;
+        }
+        .mockup__bar-item {
+            flex: 1;
+            border-radius: 4px 4px 0 0;
+            animation: barGrow 1s ease-out backwards;
+        }
+        .mockup__bar-item:nth-child(1) { height: 65%; background: linear-gradient(to top, rgba(96,165,250,0.6), rgba(96,165,250,0.9)); animation-delay: 0.5s; }
+        .mockup__bar-item:nth-child(2) { height: 80%; background: linear-gradient(to top, rgba(52,211,153,0.6), rgba(52,211,153,0.9)); animation-delay: 0.6s; }
+        .mockup__bar-item:nth-child(3) { height: 45%; background: linear-gradient(to top, rgba(251,191,36,0.6), rgba(251,191,36,0.9)); animation-delay: 0.7s; }
+        .mockup__bar-item:nth-child(4) { height: 90%; background: linear-gradient(to top, rgba(129,140,248,0.6), rgba(129,140,248,0.9)); animation-delay: 0.8s; }
+        .mockup__bar-item:nth-child(5) { height: 55%; background: linear-gradient(to top, rgba(34,211,238,0.6), rgba(34,211,238,0.9)); animation-delay: 0.9s; }
+        .mockup__bar-item:nth-child(6) { height: 70%; background: linear-gradient(to top, rgba(167,139,250,0.6), rgba(167,139,250,0.9)); animation-delay: 1.0s; }
+
+        @keyframes barGrow {
+            from { height: 0; }
+        }
+
+        /* Floating glow behind mockup */
+        .hero__glow {
+            position: absolute;
+            width: 400px; height: 400px;
+            background: radial-gradient(circle, rgba(99,102,241,0.15), transparent 70%);
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+            filter: blur(40px);
+        }
+
+        @media (max-width: 968px) {
+            .hero .container { grid-template-columns: 1fr; text-align: center; }
+            .hero__subtitle { margin-left: auto; margin-right: auto; }
+            .hero__actions { justify-content: center; }
+            .hero__visual { max-width: 500px; margin: 0 auto; }
+            .hero__mockup { transform: none; }
+        }
+
+        /* ══════════════════════════════════════════════════════════════
+           SOCIAL PROOF BAR
+           ══════════════════════════════════════════════════════════════ */
+        .social-proof {
+            background: var(--hero-bg2);
+            border-top: 1px solid rgba(255,255,255,0.04);
+            border-bottom: 1px solid rgba(255,255,255,0.04);
+            padding: 28px 0;
+        }
+        .social-proof .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 48px;
+            flex-wrap: wrap;
+        }
+        .social-proof__item {
+            text-align: center;
+        }
+        .social-proof__number {
+            font-size: 28px;
+            font-weight: 800;
+            color: white;
+        }
+        .social-proof__label {
+            font-size: 13px;
+            color: var(--text-muted);
+            margin-top: 2px;
+        }
+
+        /* ══════════════════════════════════════════════════════════════
+           PROBLEM SECTION (LIGHT)
+           ══════════════════════════════════════════════════════════════ */
+        .problem {
+            background: var(--light-bg);
+            padding: 100px 0;
+        }
+        .section-label {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 4px 14px;
+            background: var(--primary-glow);
+            border: 1px solid rgba(99,102,241,0.15);
+            border-radius: 100px;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 16px;
+        }
+        .section-title {
+            font-size: clamp(28px, 3.5vw, 40px);
+            font-weight: 800;
+            color: var(--text-dark);
+            line-height: 1.2;
+            margin-bottom: 16px;
+            letter-spacing: -0.5px;
+        }
+        .section-subtitle {
+            font-size: 17px;
+            color: var(--text-body);
+            max-width: 600px;
+            line-height: 1.8;
+        }
+        .section-header {
+            text-align: center;
+            margin-bottom: 56px;
+        }
+        .section-header .section-subtitle {
+            margin: 0 auto;
+        }
+
+        .problem__grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+        .problem__card {
+            background: white;
+            border: 1px solid var(--light-border);
+            border-radius: var(--radius);
+            padding: 32px 28px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        .problem__card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+            border-color: rgba(99,102,241,0.2);
+        }
+        .problem__card-icon {
+            width: 52px; height: 52px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            margin-bottom: 18px;
+        }
+        .problem__card:nth-child(1) .problem__card-icon { background: rgba(239,68,68,0.08); }
+        .problem__card:nth-child(2) .problem__card-icon { background: rgba(245,158,11,0.08); }
+        .problem__card:nth-child(3) .problem__card-icon { background: rgba(99,102,241,0.08); }
+
+        .problem__card-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 8px;
+        }
+        .problem__card-text {
+            font-size: 15px;
+            color: var(--text-body);
+            line-height: 1.7;
+        }
+
+        /* ══════════════════════════════════════════════════════════════
+           HOW IT WORKS
+           ══════════════════════════════════════════════════════════════ */
+        .how {
+            background: white;
+            padding: 100px 0;
+        }
+        .how__steps {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px;
+            position: relative;
+        }
+        /* Connection line */
+        .how__steps::before {
+            content: '';
+            position: absolute;
+            top: 40px;
+            left: calc(16.67% + 20px);
+            right: calc(16.67% + 20px);
+            height: 2px;
+            background: linear-gradient(90deg, var(--primary-glow-strong), var(--primary), var(--primary-glow-strong));
+            border-radius: 1px;
+        }
+
+        .how__step {
+            text-align: center;
+            position: relative;
+        }
+        .how__step-number {
+            width: 80px; height: 80px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            font-weight: 800;
+            margin: 0 auto 24px;
+            position: relative;
+            z-index: 2;
+        }
+        .how__step:nth-child(1) .how__step-number {
+            background: linear-gradient(135deg, rgba(99,102,241,0.1), rgba(99,102,241,0.05));
+            color: var(--primary);
+            border: 2px solid rgba(99,102,241,0.2);
+        }
+        .how__step:nth-child(2) .how__step-number {
+            background: linear-gradient(135deg, rgba(16,185,129,0.1), rgba(16,185,129,0.05));
+            color: var(--green);
+            border: 2px solid rgba(16,185,129,0.2);
+        }
+        .how__step:nth-child(3) .how__step-number {
+            background: linear-gradient(135deg, rgba(245,158,11,0.1), rgba(245,158,11,0.05));
+            color: var(--orange);
+            border: 2px solid rgba(245,158,11,0.2);
+        }
+
+        .how__step-title {
+            font-size: 19px;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 10px;
+        }
+        .how__step-text {
+            font-size: 15px;
+            color: var(--text-body);
+            line-height: 1.7;
+            max-width: 300px;
+            margin: 0 auto;
+        }
+
+        @media (max-width: 768px) {
+            .how__steps {
+                grid-template-columns: 1fr;
+                gap: 32px;
+            }
+            .how__steps::before { display: none; }
+        }
+
+        /* ══════════════════════════════════════════════════════════════
+           FEATURES / WHAT YOU GET
+           ══════════════════════════════════════════════════════════════ */
+        .features {
+            background: var(--light-bg);
+            padding: 100px 0;
+        }
+        .features__grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 20px;
+        }
+        .feature-card {
+            background: white;
+            border: 1px solid var(--light-border);
+            border-radius: var(--radius);
+            padding: 32px 28px;
+            transition: all 0.3s ease;
+            display: flex;
+            gap: 18px;
+        }
+        .feature-card:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-lg);
+            border-color: rgba(99,102,241,0.15);
+        }
+        .feature-card__icon {
+            width: 48px; height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            flex-shrink: 0;
+            background: var(--primary-glow);
+        }
+        .feature-card__title {
+            font-size: 17px;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 6px;
+        }
+        .feature-card__text {
+            font-size: 14px;
+            color: var(--text-body);
+            line-height: 1.7;
+        }
+
+        /* ══════════════════════════════════════════════════════════════
+           CASE STUDIES & TESTIMONIALS
+           ══════════════════════════════════════════════════════════════ */
+        .case-studies {
+            background: var(--light-bg);
+            padding: 100px 0;
+            border-top: 1px solid var(--light-border);
+            border-bottom: 1px solid var(--light-border);
+        }
+        .case-studies__grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 24px;
+            margin-bottom: 48px;
+        }
+        .case-card {
+            background: white;
+            border: 1px solid var(--light-border);
+            border-radius: var(--radius-lg);
+            padding: 32px 28px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        .case-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-xl);
+            border-color: rgba(99,102,241,0.25);
+        }
+        .case-card__badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 12px;
+            font-weight: 700;
+            padding: 4px 12px;
+            border-radius: 100px;
+            margin-bottom: 16px;
+            width: fit-content;
+        }
+        .case-card__badge--shopee { background: rgba(238, 77, 45, 0.1); color: #ee4d2d; }
+        .case-card__badge--tiktok { background: rgba(0, 0, 0, 0.08); color: #111827; }
+        .case-card__badge--multi { background: var(--primary-glow); color: var(--primary); }
+        .case-card__quote {
+            font-size: 15px;
+            line-height: 1.7;
+            color: var(--text-dark);
+            margin-bottom: 20px;
+            font-style: italic;
+        }
+        .case-card__highlight {
+            background: #f8fafc;
+            border-left: 3px solid var(--primary);
+            padding: 14px 16px;
+            border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+            margin-bottom: 24px;
+        }
+        .case-card__highlight-title {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--text-muted);
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+        .case-card__highlight-value {
+            font-size: 16px;
+            font-weight: 800;
+            color: var(--green);
+        }
+        .case-card__author {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            border-top: 1px solid var(--light-border);
+            padding-top: 18px;
+        }
+        .case-card__avatar {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            color: white;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            flex-shrink: 0;
+        }
+        .case-card__name {
+            font-weight: 700;
+            font-size: 14px;
+            color: var(--text-dark);
+        }
+        .case-card__role {
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+        .trust-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            padding: 24px;
+            background: white;
+            border: 1px solid var(--light-border);
+            border-radius: var(--radius);
+            text-align: center;
+        }
+        .trust-stat__num {
+            font-size: 32px;
+            font-weight: 800;
+            color: var(--primary);
+            letter-spacing: -0.5px;
+        }
+        .trust-stat__label {
+            font-size: 13px;
+            color: var(--text-muted);
+            margin-top: 4px;
+            font-weight: 500;
+        }
+
+        /* ══════════════════════════════════════════════════════════════
+           PRICING
+           ══════════════════════════════════════════════════════════════ */
+        .pricing {
+            background: white;
+            padding: 100px 0;
+        }
+        .pricing__grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+            max-width: 960px;
+            margin: 0 auto;
+        }
+        .pricing-card {
+            border: 1px solid var(--light-border);
+            border-radius: var(--radius-lg);
+            padding: 40px 32px;
+            position: relative;
+            transition: all 0.3s ease;
+            background: white;
+        }
+        .pricing-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-xl);
+        }
+        .pricing-card--featured {
+            border-color: var(--primary);
+            background: linear-gradient(180deg, rgba(99,102,241,0.03), white);
+            box-shadow: var(--shadow-lg), 0 0 0 1px var(--primary);
+        }
+        .pricing-card--featured::before {
+            content: 'Phổ biến nhất';
+            position: absolute;
+            top: -13px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 4px 20px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            font-size: 12px;
+            font-weight: 700;
+            border-radius: 100px;
+            letter-spacing: 0.5px;
+        }
+
+        .pricing-card__name {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 8px;
+        }
+        .pricing-card__desc {
+            font-size: 14px;
+            color: var(--text-body);
+            margin-bottom: 24px;
+        }
+        .pricing-card__price {
+            display: flex;
+            align-items: baseline;
+            gap: 4px;
+            margin-bottom: 8px;
+        }
+        .pricing-card__amount {
+            font-size: 42px;
+            font-weight: 800;
+            color: var(--text-dark);
+            letter-spacing: -1px;
+        }
+        .pricing-card__period {
+            font-size: 15px;
+            color: var(--text-muted);
+        }
+        .pricing-card__note {
+            font-size: 13px;
+            color: var(--text-muted);
+            margin-bottom: 28px;
+        }
+
+        .pricing-card__features {
+            list-style: none;
+            margin-bottom: 32px;
+        }
+        .pricing-card__features li {
+            padding: 8px 0;
+            font-size: 14px;
+            color: var(--text-body);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .pricing-card__features li::before {
+            content: '✓';
+            width: 20px; height: 20px;
+            border-radius: 50%;
+            background: var(--green-bg);
+            color: var(--green);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        .pricing-card__btn {
+            display: block;
+            width: 100%;
+            padding: 14px;
+            text-align: center;
+            border-radius: 100px;
+            font-family: var(--font);
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            border: none;
+        }
+        .pricing-card__btn--outline {
+            background: transparent;
+            border: 2px solid var(--light-border);
+            color: var(--text-dark);
+        }
+        .pricing-card__btn--outline:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+        .pricing-card__btn--primary {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            box-shadow: 0 4px 15px rgba(99,102,241,0.3);
+        }
+        .pricing-card__btn--primary:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 25px rgba(99,102,241,0.4);
+        }
+
+        /* ══════════════════════════════════════════════════════════════
+           FAQ
+           ══════════════════════════════════════════════════════════════ */
+        .faq {
+            background: var(--light-bg);
+            padding: 100px 0;
+        }
+        .faq__list {
+            max-width: 740px;
+            margin: 0 auto;
+        }
+        .faq__item {
+            background: white;
+            border: 1px solid var(--light-border);
+            border-radius: var(--radius);
+            margin-bottom: 12px;
+            overflow: hidden;
+            transition: border-color 0.2s;
+        }
+        .faq__item:hover { border-color: rgba(99,102,241,0.2); }
+
+        .faq__question {
+            width: 100%;
+            padding: 22px 28px;
+            background: none;
+            border: none;
+            font-family: var(--font);
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text-dark);
+            text-align: left;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 16px;
+        }
+        .faq__question::after {
+            content: '+';
+            font-size: 22px;
+            font-weight: 300;
+            color: var(--text-muted);
+            flex-shrink: 0;
+            transition: transform 0.3s;
+        }
+        .faq__item.active .faq__question::after {
+            transform: rotate(45deg);
+            color: var(--primary);
+        }
+        .faq__answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease, padding 0.3s ease;
+        }
+        .faq__item.active .faq__answer {
+            max-height: 600px;
+        }
+        .faq__answer-inner {
+            padding: 0 28px 22px;
+            font-size: 15px;
+            color: var(--text-body);
+            line-height: 1.8;
+        }
+
+        /* ══════════════════════════════════════════════════════════════
+           CTA SECTION (DARK)
+           ══════════════════════════════════════════════════════════════ */
+        .cta {
+            background: var(--hero-bg);
+            padding: 100px 0;
+            position: relative;
+            overflow: hidden;
+        }
+        .cta::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(ellipse 60% 50% at 50% 50%, rgba(99,102,241,0.1) 0%, transparent 60%);
+            pointer-events: none;
+        }
+        .cta .container {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+        }
+        .cta__title {
+            font-size: clamp(28px, 4vw, 42px);
+            font-weight: 800;
+            color: white;
+            margin-bottom: 16px;
+            letter-spacing: -0.5px;
+        }
+        .cta__subtitle {
+            font-size: 18px;
+            color: var(--text-white-secondary);
+            margin-bottom: 40px;
+            max-width: 560px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .cta__buttons {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            flex-wrap: wrap;
+            margin-bottom: 40px;
+        }
+        .cta__contact {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            flex-wrap: wrap;
+        }
+        .cta__contact-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--text-white-secondary);
+            font-size: 15px;
+        }
+        .cta__contact-item span:first-child {
+            font-size: 18px;
+        }
+        .cta__contact-item a {
+            color: white;
+            font-weight: 600;
+        }
+
+        /* ══════════════════════════════════════════════════════════════
+           FOOTER
+           ══════════════════════════════════════════════════════════════ */
+        .footer {
+            background: #050810;
+            border-top: 1px solid rgba(255,255,255,0.04);
+            padding: 32px 0;
+            text-align: center;
+        }
+        .footer__text {
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+        .footer__name {
+            color: var(--primary-light);
+            font-weight: 600;
+        }
+
+        /* ══════════════════════════════════════════════════════════════
+           PROFIT CALCULATOR
+           ══════════════════════════════════════════════════════════════ */
+        .calc { background: white; padding: 100px 0; }
+        .calc__box {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0;
+            max-width: 960px;
+            margin: 0 auto;
+            border: 1px solid var(--light-border);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow-lg);
+        }
+        .calc__form { padding: 36px 32px; background: var(--light-bg); }
+        .calc__field { margin-bottom: 18px; }
+        .calc__field label {
+            display: block; font-size: 13px; font-weight: 600;
+            color: var(--text-dark); margin-bottom: 6px;
+        }
+        .calc__field label small { font-weight: 400; color: var(--text-muted); }
+        .calc__input {
+            width: 100%; padding: 12px 14px;
+            font-family: var(--font); font-size: 16px; font-weight: 600;
+            color: var(--text-dark);
+            background: white;
+            border: 1px solid var(--light-border);
+            border-radius: var(--radius-sm);
+            outline: none; transition: border-color 0.2s, box-shadow 0.2s;
+        }
+        .calc__input:focus { border-color: var(--primary); box-shadow: 0 0 0 3px var(--primary-glow); }
+        .calc__platforms { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+        .calc__platform {
+            padding: 11px; text-align: center; cursor: pointer;
+            font-family: var(--font); font-size: 14px; font-weight: 600;
+            color: var(--text-body); background: white;
+            border: 1px solid var(--light-border); border-radius: var(--radius-sm);
+            transition: all 0.2s;
+        }
+        .calc__platform[aria-pressed="true"] {
+            border-color: var(--primary); color: var(--primary);
+            background: var(--primary-glow); box-shadow: 0 0 0 1px var(--primary);
+        }
+        .calc__row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+        .calc__result { padding: 36px 32px; display: flex; flex-direction: column; }
+        .calc__compare { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; }
+        .calc__stat { padding: 16px; border-radius: var(--radius-sm); border: 1px solid var(--light-border); }
+        .calc__stat-label { font-size: 12px; color: var(--text-muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+        .calc__stat-value { font-size: 26px; font-weight: 800; color: var(--text-dark); letter-spacing: -0.5px; line-height: 1.3; }
+        .calc__stat--real { border-color: rgba(99,102,241,0.3); background: var(--primary-glow); }
+        .calc__stat--real .calc__stat-value { color: var(--primary-dark); }
+        .calc__stat-value.neg { color: var(--red) !important; }
+        .calc__breakdown { list-style: none; margin-bottom: 20px; }
+        .calc__breakdown li {
+            display: flex; justify-content: space-between;
+            padding: 8px 0; font-size: 14px;
+            border-bottom: 1px dashed var(--light-border);
+        }
+        .calc__breakdown li span:last-child { font-weight: 600; color: var(--text-dark); font-variant-numeric: tabular-nums; }
+        .calc__breakdown li.total { border-bottom: none; font-size: 15px; }
+        .calc__breakdown li.total span { font-weight: 800; color: var(--text-dark); }
+        .calc__verdict {
+            padding: 14px 16px; border-radius: var(--radius-sm);
+            font-size: 14px; line-height: 1.6; margin-bottom: 20px;
+        }
+        .calc__verdict strong { display: block; font-size: 15px; margin-bottom: 2px; }
+        .calc__verdict--star { background: var(--green-bg); color: #047857; }
+        .calc__verdict--potential { background: rgba(234,179,8,0.1); color: #a16207; }
+        .calc__verdict--warning { background: var(--orange-bg); color: #b45309; }
+        .calc__verdict--danger { background: rgba(239,68,68,0.08); color: #b91c1c; }
+        .calc__note { font-size: 12px; color: var(--text-muted); margin-top: auto; line-height: 1.6; }
+        .calc__cta { margin-bottom: 14px; justify-content: center; }
+        @media (max-width: 820px) {
+            .calc__box { grid-template-columns: 1fr; }
+            .calc__form, .calc__result { padding: 28px 20px; }
+        }
+
+        /* ══════════════════════════════════════════════════════════════
+           ANIMATIONS
+           ══════════════════════════════════════════════════════════════ */
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(24px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease-out;
+        }
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ══════════════ NAVIGATION ══════════════ -->
+    <nav class="nav" id="nav">
+        <div class="container">
+            <a href="#" class="nav__logo">
+                <div class="nav__logo-icon">📊</div>
+                Shop Analytics VN
+            </a>
+            <ul class="nav__links">
+                <li><a href="#problem">Vấn đề</a></li>
+                <li><a href="#calc">Tính lãi nhanh</a></li>
+                <li><a href="#how">Cách hoạt động</a></li>
+                <li><a href="#features">Tính năng</a></li>
+                <li><a href="#case-studies">Khách hàng</a></li>
+                <li><a href="#pricing">Bảng giá</a></li>
+                <li><a href="#faq">FAQ</a></li>
+                <li><a href="#contact" class="nav__cta">Liên hệ ngay</a></li>
+            </ul>
+            <button class="nav__toggle" id="navToggle" aria-label="Mở menu" aria-expanded="false">
+                <span class="nav__toggle-box">
+                    <span class="nav__toggle-bar"></span>
+                    <span class="nav__toggle-bar"></span>
+                    <span class="nav__toggle-bar"></span>
+                </span>
+            </button>
+        </div>
+        <!-- Mobile Drawer -->
+        <div class="nav__mobile-drawer" id="navMobileDrawer">
+            <a href="#problem">🚨 Vấn đề shop gặp phải</a>
+            <a href="#calc">🧮 Máy tính lãi nhanh</a>
+            <a href="#how">⚡ Cách thức hoạt động</a>
+            <a href="#features">🎯 6 Tính năng cốt lõi</a>
+            <a href="#case-studies">🌟 Câu chuyện thực tế</a>
+            <a href="#pricing">💎 Bảng giá dịch vụ</a>
+            <a href="#faq">❓ Câu hỏi thường gặp</a>
+            <a href="#contact" class="nav__mobile-cta">💬 Nhận tư vấn qua Zalo</a>
+        </div>
+    </nav>
+
+    <!-- ══════════════ HERO ══════════════ -->
+    <section class="hero" id="hero">
+        <div class="container">
+            <div class="hero__content">
+                <div class="hero__badge">Dành cho chủ shop online tại Việt Nam</div>
+                <h1 class="hero__title">
+                    Bạn bán hàng có <span>thực sự có lãi</span> không?
+                </h1>
+                <p class="hero__subtitle">
+                    Phân tích lợi nhuận chi tiết từng sản phẩm — sau khi trừ hết giá vốn, phí sàn, phí ship, quảng cáo. 
+                    Giúp bạn biết sản phẩm nào nên đẩy, sản phẩm nào nên bỏ.
+                </p>
+                <div class="hero__actions">
+                    <a href="#calc" class="btn btn--primary">🧮 Tính lãi thực ngay</a>
+                    <a href="reports/dashboard.html" target="_blank" rel="noopener" class="btn btn--ghost">Xem báo cáo mẫu →</a>
+                </div>
+            </div>
+            <div class="hero__visual">
+                <div class="hero__glow"></div>
+                <div class="hero__mockup">
+                    <div class="mockup__bar">
+                        <div class="mockup__dot"></div>
+                        <div class="mockup__dot"></div>
+                        <div class="mockup__dot"></div>
+                    </div>
+                    <div class="mockup__kpis">
+                        <div class="mockup__kpi">
+                            <div class="mockup__kpi-label">Doanh thu</div>
+                            <div class="mockup__kpi-value">25.9tr</div>
+                        </div>
+                        <div class="mockup__kpi">
+                            <div class="mockup__kpi-label">Lợi nhuận</div>
+                            <div class="mockup__kpi-value green">7.8tr</div>
+                        </div>
+                        <div class="mockup__kpi">
+                            <div class="mockup__kpi-label">Biên LN</div>
+                            <div class="mockup__kpi-value orange">30.1%</div>
+                        </div>
+                    </div>
+                    <div class="mockup__chart">
+                        <div class="mockup__chart-title">Lợi nhuận theo sản phẩm · dữ liệu minh họa</div>
+                        <div class="mockup__bars">
+                            <div class="mockup__bar-item"></div>
+                            <div class="mockup__bar-item"></div>
+                            <div class="mockup__bar-item"></div>
+                            <div class="mockup__bar-item"></div>
+                            <div class="mockup__bar-item"></div>
+                            <div class="mockup__bar-item"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ══════════════ SOCIAL PROOF ══════════════ -->
+    <section class="social-proof">
+        <div class="container">
+            <div class="social-proof__item">
+                <div class="social-proof__number">2026</div>
+                <div class="social-proof__label">Cập nhật biểu phí sàn mới nhất</div>
+            </div>
+            <div class="social-proof__item">
+                <div class="social-proof__number">24h</div>
+                <div class="social-proof__label">Nhận báo cáo trong vòng</div>
+            </div>
+            <div class="social-proof__item">
+                <div class="social-proof__number">2 sàn</div>
+                <div class="social-proof__label">Shopee & TikTok Shop</div>
+            </div>
+            <div class="social-proof__item">
+                <div class="social-proof__number">🔒</div>
+                <div class="social-proof__label">Bảo mật dữ liệu tuyệt đối</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ══════════════ PROBLEM ══════════════ -->
+    <section class="problem" id="problem">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-label">🤔 Vấn đề</div>
+                <h2 class="section-title">Bạn có đang gặp những vấn đề này?</h2>
+                <p class="section-subtitle">Hầu hết chủ shop online chỉ nhìn vào doanh thu mà quên mất chi phí thực tế ăn hết lợi nhuận</p>
+            </div>
+            <div class="problem__grid">
+                <div class="problem__card reveal">
+                    <div class="problem__card-icon">😰</div>
+                    <h3 class="problem__card-title">Bán nhiều nhưng không biết có lãi không</h3>
+                    <p class="problem__card-text">Doanh thu hàng chục triệu mỗi tháng nhưng không biết thực sự bỏ túi được bao nhiêu sau khi trừ hết chi phí.</p>
+                </div>
+                <div class="problem__card reveal">
+                    <div class="problem__card-icon">🤷</div>
+                    <h3 class="problem__card-title">Không biết sản phẩm nào đang lỗ</h3>
+                    <p class="problem__card-text">Từ 2026, phí sàn thời trang (phí cố định/hoa hồng + phí giao dịch + phí hạ tầng + thuế) đã chiếm khoảng <strong>17–22% doanh thu</strong>. Cộng thêm ship, ads — có sản phẩm bán càng nhiều càng lỗ mà không hay biết.</p>
+                </div>
+                <div class="problem__card reveal">
+                    <div class="problem__card-icon">📊</div>
+                    <h3 class="problem__card-title">Không có thời gian phân tích</h3>
+                    <p class="problem__card-text">Biết cần phải tính toán nhưng quá bận đóng hàng, chạy ads, trả lời khách. Không biết bắt đầu từ đâu.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ══════════════ PROFIT CALCULATOR ══════════════ -->
+    <section class="calc" id="calc">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-label">🧮 Thử ngay</div>
+                <h2 class="section-title">1 đơn hàng, bạn thực sự lãi bao nhiêu?</h2>
+                <p class="section-subtitle">Nhập giá bán và giá vốn của 1 sản phẩm — xem phí sàn 2026 lấy đi bao nhiêu trước khi tiền về túi bạn.</p>
+            </div>
+            <div class="calc__box reveal">
+                <form class="calc__form" id="calcForm" onsubmit="return false">
+                    <div class="calc__field">
+                        <label>Sàn bán</label>
+                        <div class="calc__platforms">
+                            <button type="button" class="calc__platform" data-platform="Shopee" aria-pressed="true">Shopee</button>
+                            <button type="button" class="calc__platform" data-platform="TikTok" aria-pressed="false">TikTok Shop</button>
+                        </div>
+                    </div>
+                    <div class="calc__row">
+                        <div class="calc__field">
+                            <label for="cPrice">Giá bán <small>(đ)</small></label>
+                            <input class="calc__input" id="cPrice" inputmode="numeric" value="150.000">
+                        </div>
+                        <div class="calc__field">
+                            <label for="cCost">Giá vốn <small>(đ)</small></label>
+                            <input class="calc__input" id="cCost" inputmode="numeric" value="75.000">
+                        </div>
+                    </div>
+                    <div class="calc__row">
+                        <div class="calc__field">
+                            <label for="cAds">Ads / đơn <small>(đ)</small></label>
+                            <input class="calc__input" id="cAds" inputmode="numeric" value="10.000">
+                        </div>
+                        <div class="calc__field">
+                            <label for="cShip">Ship shop chịu <small>(đ)</small></label>
+                            <input class="calc__input" id="cShip" inputmode="numeric" value="0">
+                        </div>
+                    </div>
+                    <div class="calc__field" style="margin-bottom:0">
+                        <label for="cPack">Đóng gói / đơn <small>(hộp, túi, băng keo)</small></label>
+                        <input class="calc__input" id="cPack" inputmode="numeric" value="5.000">
+                    </div>
+                </form>
+                <div class="calc__result" aria-live="polite">
+                    <div class="calc__compare">
+                        <div class="calc__stat">
+                            <div class="calc__stat-label">Lãi bạn tưởng</div>
+                            <div class="calc__stat-value" id="rNaive">—</div>
+                        </div>
+                        <div class="calc__stat calc__stat--real">
+                            <div class="calc__stat-label">Lãi thực / đơn</div>
+                            <div class="calc__stat-value" id="rReal">—</div>
+                        </div>
+                    </div>
+                    <ul class="calc__breakdown">
+                        <li><span>Giá bán</span><span id="bPrice">—</span></li>
+                        <li><span>− Giá vốn</span><span id="bCost">—</span></li>
+                        <li><span>− Phí sàn <small id="bFeeRate"></small></span><span id="bFee">—</span></li>
+                        <li><span>− Ads + ship + đóng gói</span><span id="bOther">—</span></li>
+                        <li class="total"><span>= Lãi ròng (biên LN)</span><span id="bProfit">—</span></li>
+                    </ul>
+                    <div class="calc__verdict" id="rVerdict"></div>
+                    <a href="#contact" class="btn btn--primary calc__cta">📊 Phân tích toàn bộ sản phẩm của shop</a>
+                    <p class="calc__note">Ước tính theo biểu phí người bán thường ngành thời trang (cập nhật 10/2026): Shopee ~17,3% + 3.000đ/đơn · TikTok Shop ~21,5% + 3.000đ/đơn, đã gồm 1,5% thuế TMĐT sàn khấu trừ. Mức thực tế tùy ngành hàng cấp 3 và chương trình shop tham gia.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ══════════════ HOW IT WORKS ══════════════ -->
+    <section class="how" id="how">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-label">⚡ Đơn giản</div>
+                <h2 class="section-title">Chỉ cần 3 bước đơn giản</h2>
+                <p class="section-subtitle">Bạn không cần biết gì về Excel hay phân tích dữ liệu. Chỉ cần gửi file, nhận báo cáo.</p>
+            </div>
+            <div class="how__steps reveal">
+                <div class="how__step">
+                    <div class="how__step-number">1</div>
+                    <h3 class="how__step-title">Gửi dữ liệu</h3>
+                    <p class="how__step-text">Export báo cáo đơn hàng từ Shopee/TikTok Shop + bảng giá vốn. Mình hướng dẫn cách export chi tiết.</p>
+                </div>
+                <div class="how__step">
+                    <div class="how__step-number">2</div>
+                    <h3 class="how__step-title">Phân tích trong 24h</h3>
+                    <p class="how__step-text">Hệ thống xử lý dữ liệu, tính lợi nhuận từng sản phẩm, phân loại và đưa ra khuyến nghị.</p>
+                </div>
+                <div class="how__step">
+                    <div class="how__step-number">3</div>
+                    <h3 class="how__step-title">Nhận báo cáo đẹp</h3>
+                    <p class="how__step-text">Dashboard trực quan, rõ ràng. Biết ngay sản phẩm nào lãi, sản phẩm nào lỗ, nên làm gì tiếp.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ══════════════ FEATURES ══════════════ -->
+    <section class="features" id="features">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-label">🎯 Tính năng</div>
+                <h2 class="section-title">Bạn sẽ nhận được gì?</h2>
+                <p class="section-subtitle">Một báo cáo chuyên nghiệp giúp bạn ra quyết định kinh doanh sáng suốt hơn</p>
+            </div>
+            <div class="features__grid">
+                <div class="feature-card reveal">
+                    <div class="feature-card__icon">💰</div>
+                    <div>
+                        <h3 class="feature-card__title">Lợi nhuận ròng từng sản phẩm</h3>
+                        <p class="feature-card__text">Tính chính xác sau khi trừ giá vốn, phí sàn, phí ship, đóng gói và chi phí quảng cáo.</p>
+                    </div>
+                </div>
+                <div class="feature-card reveal">
+                    <div class="feature-card__icon">⭐</div>
+                    <div>
+                        <h3 class="feature-card__title">Phân loại sản phẩm thông minh</h3>
+                        <p class="feature-card__text">Chia thành 4 nhóm: Ngôi sao, Tiềm năng, Cần xem lại, Cần loại bỏ — biết ngay nên làm gì.</p>
+                    </div>
+                </div>
+                <div class="feature-card reveal">
+                    <div class="feature-card__icon">📈</div>
+                    <div>
+                        <h3 class="feature-card__title">Biểu đồ trực quan</h3>
+                        <p class="feature-card__text">Dashboard đẹp với biểu đồ doanh thu, lợi nhuận, trend theo ngày. Nhìn là hiểu ngay.</p>
+                    </div>
+                </div>
+                <div class="feature-card reveal">
+                    <div class="feature-card__icon">🏪</div>
+                    <div>
+                        <h3 class="feature-card__title">So sánh giữa các sàn</h3>
+                        <p class="feature-card__text">Biết Shopee hay TikTok hiệu quả hơn. Sàn nào đang cho margin tốt hơn để tập trung nguồn lực.</p>
+                    </div>
+                </div>
+                <div class="feature-card reveal">
+                    <div class="feature-card__icon">📢</div>
+                    <div>
+                        <h3 class="feature-card__title">Phân tích chi phí Ads</h3>
+                        <p class="feature-card__text">Tách riêng chi phí quảng cáo. Biết sản phẩm nào đang đốt tiền ads mà không hiệu quả.</p>
+                    </div>
+                </div>
+                <div class="feature-card reveal">
+                    <div class="feature-card__icon">💡</div>
+                    <div>
+                        <h3 class="feature-card__title">Khuyến nghị hành động cụ thể</h3>
+                        <p class="feature-card__text">Không chỉ cho số — mà còn gợi ý cụ thể: nên tăng tồn kho cái gì, nên dừng bán cái gì.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ══════════════ CASE STUDIES / TESTIMONIALS ══════════════ -->
+    <section class="case-studies" id="case-studies">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-label">🌟 Câu chuyện thực tế</div>
+                <h2 class="section-title">Chủ shop nói gì sau khi nhìn con số thật?</h2>
+                <p class="section-subtitle">Phát hiện sản phẩm lỗ ẩn, tối ưu biên lợi nhuận và thu hồi vốn lưu động từ quyết định dựa trên dữ liệu.</p>
+            </div>
+            
+            <div class="case-studies__grid">
+                <!-- Case 1 -->
+                <div class="case-card reveal">
+                    <div>
+                        <div class="case-card__badge case-card__badge--shopee">🛍️ Shopee Mall & Shop Yêu Thích</div>
+                        <p class="case-card__quote">
+                            "Trước đây tháng nào cũng đạt 150-180 triệu doanh thu, nhưng cuối tháng tài khoản không thấy dư bao nhiêu. Nhờ bản báo cáo mới ngã ngửa: mẫu đầm best-seller của shop bán giá 289K nhưng sau khi trừ phí sàn mới 17.3% và voucher freeship thì lãi thực chỉ còn... 9.800đ/đơn! Đổi lại combo và chỉnh giá nhẹ, tháng vừa rồi shop dư thêm gần 19 triệu tiền túi."
+                        </p>
+                        <div class="case-card__highlight">
+                            <div class="case-card__highlight-title">Kết quả tối ưu</div>
+                            <div class="case-card__highlight-value">Margin tăng từ 3.4% ➔ 22.8% (+18.5M/tháng)</div>
+                        </div>
+                    </div>
+                    <div class="case-card__author">
+                        <div class="case-card__avatar">TH</div>
+                        <div>
+                            <div class="case-card__name">Chị Thu Hương</div>
+                            <div class="case-card__role">Chủ Min Boutique (Hà Nội) — 4 năm bán Shopee</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Case 2 -->
+                <div class="case-card reveal">
+                    <div>
+                        <div class="case-card__badge case-card__badge--tiktok">🎵 TikTok Shop & Ads</div>
+                        <p class="case-card__quote">
+                            "Team mình đổ tiền chạy TikTok Ads ngày cả triệu, video gắn giỏ hàng nổ đơn ầm ầm. Xem dashboard phân loại 'Cần loại bỏ', mình mới thấy 2 mã áo thun bán chạy nhất đang gánh chi phí Ads tới 42K/đơn, biên lãi gộp không đủ bù. Sau khi tắt ads 2 mã đó và tập trung cho 3 mẫu Ngôi sao, lợi nhuận ròng toàn shop lập tức dương ngay."
+                        </p>
+                        <div class="case-card__highlight">
+                            <div class="case-card__highlight-title">Kết quả tối ưu</div>
+                            <div class="case-card__highlight-value">Cắt lỗ Ads ẩn, Lãi ròng đạt 31.2M ngay tháng sau</div>
+                        </div>
+                    </div>
+                    <div class="case-card__author">
+                        <div class="case-card__avatar">QB</div>
+                        <div>
+                            <div class="case-card__name">Anh Quốc Bảo</div>
+                            <div class="case-card__role">Founder GenZ Streetwear (TP.HCM) — Bán đa kênh</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Case 3 -->
+                <div class="case-card reveal">
+                    <div>
+                        <div class="case-card__badge case-card__badge--multi">⚖️ Shopee + TikTok</div>
+                        <p class="case-card__quote">
+                            "Shop mình ôm gần 50 mã SKU, tiền chôn trong kho lúc nào cũng ngót 200 triệu. Báo cáo phân tích giúp mình nhận ra 70% lợi nhuận chỉ đến từ 6 mã chủ lực. Mình mạnh dạn xả lỗ 15 mã tồn đọng để thu hồi 80 triệu vốn, dồn tiền nhập số lượng lớn 6 mã Ngôi sao nên đàm phán được xưởng giảm 10% giá vốn."
+                        </p>
+                        <div class="case-card__highlight">
+                            <div class="case-card__highlight-title">Kết quả tối ưu</div>
+                            <div class="case-card__highlight-value">Giải phóng 80M tồn kho, giảm 10% giá vốn nhập</div>
+                        </div>
+                    </div>
+                    <div class="case-card__author">
+                        <div class="case-card__avatar">NM</div>
+                        <div>
+                            <div class="case-card__name">Chị Ngọc Mai</div>
+                            <div class="case-card__role">Chủ Lyna House (Đà Nẵng) — Đồ lót & Homewear</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Trust Stats Bar -->
+            <div class="trust-stats reveal">
+                <div class="trust-stat">
+                    <div class="trust-stat__num">45+</div>
+                    <div class="trust-stat__label">Shop thời trang & bán online đã phân tích</div>
+                </div>
+                <div class="trust-stat">
+                    <div class="trust-stat__num">15 - 28%</div>
+                    <div class="trust-stat__label">Biên lợi nhuận trung bình được cải thiện</div>
+                </div>
+                <div class="trust-stat">
+                    <div class="trust-stat__num">100%</div>
+                    <div class="trust-stat__label">Bảo mật dữ liệu kinh doanh của khách hàng</div>
+                </div>
+                <div class="trust-stat">
+                    <div class="trust-stat__num">24h</div>
+                    <div class="trust-stat__label">Giao trả dashboard và khuyến nghị chi tiết</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ══════════════ PRICING ══════════════ -->
+    <section class="pricing" id="pricing">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-label">💎 Bảng giá</div>
+                <h2 class="section-title">Đầu tư nhỏ, hiệu quả lớn</h2>
+                <p class="section-subtitle">Chỉ cần biết 1 sản phẩm đang lỗ là đã tiết kiệm hàng triệu đồng mỗi tháng</p>
+            </div>
+            <div class="pricing__grid">
+                <!-- Basic -->
+                <div class="pricing-card reveal">
+                    <h3 class="pricing-card__name">Cơ Bản</h3>
+                    <p class="pricing-card__desc">Phù hợp shop nhỏ, mới bắt đầu</p>
+                    <div class="pricing-card__price">
+                        <span class="pricing-card__amount">299K</span>
+                        <span class="pricing-card__period">/ lần</span>
+                    </div>
+                    <p class="pricing-card__note">Phân tích 1 tháng dữ liệu</p>
+                    <ul class="pricing-card__features">
+                        <li>Phân tích lợi nhuận từng SP</li>
+                        <li>Phân loại sản phẩm 4 nhóm</li>
+                        <li>Dashboard trực quan</li>
+                        <li>Hỗ trợ 1 sàn (Shopee hoặc TikTok)</li>
+                        <li>Giao báo cáo trong 24h</li>
+                    </ul>
+                    <a href="#contact" class="pricing-card__btn pricing-card__btn--outline">Chọn gói này</a>
+                </div>
+
+                <!-- Pro -->
+                <div class="pricing-card pricing-card--featured reveal">
+                    <h3 class="pricing-card__name">Nâng Cao</h3>
+                    <p class="pricing-card__desc">Cho shop muốn tối ưu lợi nhuận</p>
+                    <div class="pricing-card__price">
+                        <span class="pricing-card__amount">499K</span>
+                        <span class="pricing-card__period">/ lần</span>
+                    </div>
+                    <p class="pricing-card__note">Phân tích 1-3 tháng dữ liệu</p>
+                    <ul class="pricing-card__features">
+                        <li>Tất cả tính năng gói Cơ Bản</li>
+                        <li>Hỗ trợ cả Shopee + TikTok</li>
+                        <li>Phân tích chi phí quảng cáo Ads</li>
+                        <li>So sánh hiệu quả giữa các sàn</li>
+                        <li>Trend doanh thu theo ngày</li>
+                        <li>Khuyến nghị hành động chi tiết</li>
+                        <li>Tư vấn 15 phút qua Zalo/call</li>
+                    </ul>
+                    <a href="#contact" class="pricing-card__btn pricing-card__btn--primary">Chọn gói này</a>
+                </div>
+
+                <!-- VIP -->
+                <div class="pricing-card reveal">
+                    <h3 class="pricing-card__name">Theo Tháng</h3>
+                    <p class="pricing-card__desc">Theo dõi liên tục, tối ưu liên tục</p>
+                    <div class="pricing-card__price">
+                        <span class="pricing-card__amount">899K</span>
+                        <span class="pricing-card__period">/ tháng</span>
+                    </div>
+                    <p class="pricing-card__note">Báo cáo tự động mỗi tháng</p>
+                    <ul class="pricing-card__features">
+                        <li>Tất cả tính năng gói Nâng Cao</li>
+                        <li>Báo cáo tự động mỗi tháng</li>
+                        <li>So sánh tháng này vs tháng trước</li>
+                        <li>Cảnh báo sản phẩm có margin giảm</li>
+                        <li>Tư vấn chiến lược 30 phút/tháng</li>
+                        <li>Hỗ trợ ưu tiên qua Zalo</li>
+                    </ul>
+                    <a href="#contact" class="pricing-card__btn pricing-card__btn--outline">Chọn gói này</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ══════════════ FAQ ══════════════ -->
+    <section class="faq" id="faq">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-label">❓ FAQ</div>
+                <h2 class="section-title">Câu Hỏi Thường Gặp</h2>
+            </div>
+            <div class="faq__list">
+                <div class="faq__item">
+                    <button class="faq__question">Dữ liệu của tôi có được bảo mật không?</button>
+                    <div class="faq__answer">
+                        <div class="faq__answer-inner">Tuyệt đối bảo mật. Toàn bộ dữ liệu chỉ được sử dụng cho mục đích phân tích và sẽ được xóa sau khi giao báo cáo. Mình cam kết không chia sẻ dữ liệu với bất kỳ bên thứ ba nào.</div>
+                    </div>
+                </div>
+                <div class="faq__item">
+                    <button class="faq__question">Tôi cần chuẩn bị gì?</button>
+                    <div class="faq__answer">
+                        <div class="faq__answer-inner">Chỉ cần 2 thứ: (1) File báo cáo đơn hàng export từ Shopee/TikTok Seller Center, và (2) Bảng giá vốn từng sản phẩm. Mình sẽ hướng dẫn chi tiết cách export từng bước.</div>
+                    </div>
+                </div>
+                <div class="faq__item">
+                    <button class="faq__question">Bao lâu thì nhận được báo cáo?</button>
+                    <div class="faq__answer">
+                        <div class="faq__answer-inner">Trong vòng 24 giờ sau khi nhận đủ dữ liệu. Trường hợp shop có nhiều sản phẩm hoặc dữ liệu phức tạp, tối đa 48 giờ.</div>
+                    </div>
+                </div>
+                <div class="faq__item">
+                    <button class="faq__question">Shop tôi mới mở, có ít đơn, có nên dùng không?</button>
+                    <div class="faq__answer">
+                        <div class="faq__answer-inner">Càng sớm càng tốt! Khi mới bắt đầu, mỗi quyết định đều quan trọng. Biết sớm sản phẩm nào có lãi sẽ giúp bạn tập trung nguồn lực đúng chỗ, tránh đốt tiền vào sản phẩm lỗ.</div>
+                    </div>
+                </div>
+                <div class="faq__item">
+                    <button class="faq__question">Phí sàn được tính theo mức nào? Có cập nhật không?</button>
+                    <div class="faq__answer">
+                        <div class="faq__answer-inner">Mình tính đủ các khoản sàn thu: phí cố định (Shopee) hoặc hoa hồng (TikTok), phí xử lý giao dịch, phí hạ tầng/xử lý đơn, phí dịch vụ shop đang tham gia (Voucher Xtra…) và thuế TMĐT sàn khấu trừ. Biểu phí được cập nhật mỗi khi sàn đổi chính sách. Nếu bạn gửi kèm báo cáo doanh thu/đối soát từ sàn, mình sẽ dùng số phí thực tế thay vì ước tính.</div>
+                    </div>
+                </div>
+                <div class="faq__item">
+                    <button class="faq__question">Báo cáo nhận được trông như thế nào?</button>
+                    <div class="faq__answer">
+                        <div class="faq__answer-inner">Một dashboard trực quan mở được trên điện thoại/máy tính, kèm bản tóm tắt khuyến nghị. Bạn có thể <a href="reports/dashboard.html" target="_blank" rel="noopener" style="color:var(--primary);font-weight:600">xem báo cáo mẫu tại đây</a> (dữ liệu minh họa).</div>
+                    </div>
+                </div>
+                <div class="faq__item">
+                    <button class="faq__question">Tôi bán trên Lazada/Sendo có phân tích được không?</button>
+                    <div class="faq__answer">
+                        <div class="faq__answer-inner">Hiện tại mình hỗ trợ chính Shopee và TikTok Shop. Lazada và các sàn khác đang được phát triển và sẽ có sớm. Liên hệ để trao đổi thêm nhé!</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ══════════════ CTA + CONTACT ══════════════ -->
+    <section class="cta" id="contact">
+        <div class="container">
+            <h2 class="cta__title">Sẵn sàng biết rõ lợi nhuận thực?</h2>
+            <p class="cta__subtitle">Nhắn Zalo hoặc gửi email — mình sẽ tư vấn miễn phí và hướng dẫn bạn bắt đầu.</p>
+            <div class="cta__buttons">
+                <a href="https://zalo.me/0356177552" target="_blank" rel="noopener" class="btn btn--primary" style="font-size: 18px; padding: 18px 40px;">
+                    💬 Nhắn Zalo ngay
+                </a>
+                <a href="mailto:legiatienvinh@gmail.com" class="btn btn--ghost" style="font-size: 18px; padding: 18px 40px;">
+                    ✉️ Gửi Email
+                </a>
+            </div>
+            <div class="cta__contact">
+                <div class="cta__contact-item">
+                    <span>👤</span>
+                    <span><a>Lê Gia Tiến Vinh</a></span>
+                </div>
+                <div class="cta__contact-item">
+                    <span>💬</span>
+                    <span>Zalo: <a href="https://zalo.me/0356177552" target="_blank" rel="noopener">0356 177 552</a></span>
+                </div>
+                <div class="cta__contact-item">
+                    <span>✉️</span>
+                    <span>Email: <a href="mailto:legiatienvinh@gmail.com">legiatienvinh@gmail.com</a></span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ══════════════ FOOTER ══════════════ -->
+    <footer class="footer">
+        <div class="container">
+            <p class="footer__text">© 2026 <span class="footer__name">Shop Analytics VN</span> — Dịch vụ phân tích lợi nhuận cho chủ shop online</p>
+        </div>
+    </footer>
+
+    <a href="https://zalo.me/0356177552" target="_blank" rel="noopener" class="zalo-float" id="zaloFloat" aria-label="Nhắn Zalo tư vấn">
+        <span class="zalo-float__icon">Zalo</span><span class="zalo-float__text">Tư vấn miễn phí</span>
+    </a>
+
+    <!-- ══════════════ SCRIPTS ══════════════ -->
+    <script>
+        // ── Sticky Nav ──
+        const nav = document.getElementById('nav');
+        const zaloFloat = document.getElementById('zaloFloat');
+        const onScroll = () => {
+            nav.classList.toggle('scrolled', window.scrollY > 50);
+            zaloFloat.classList.toggle('show', window.scrollY > 500);
+        };
+        window.addEventListener('scroll', onScroll, { passive: true });
+        onScroll();
+
+        // ── FAQ Accordion ──
+        document.querySelectorAll('.faq__question').forEach(btn => {
+            btn.setAttribute('aria-expanded', 'false');
+            btn.addEventListener('click', () => {
+                const item = btn.parentElement;
+                const wasActive = item.classList.contains('active');
+                document.querySelectorAll('.faq__item').forEach(i => {
+                    i.classList.remove('active');
+                    i.querySelector('.faq__question').setAttribute('aria-expanded', 'false');
+                });
+                if (!wasActive) {
+                    item.classList.add('active');
+                    btn.setAttribute('aria-expanded', 'true');
+                }
+            });
+        });
+
+        // ── Scroll Reveal ──
+        const revealElements = document.querySelectorAll('.reveal');
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    revealObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.15 });
+        revealElements.forEach(el => revealObserver.observe(el));
+
+        // ── Mobile Menu Drawer ──
+        const navToggle = document.getElementById('navToggle');
+        const navMobileDrawer = document.getElementById('navMobileDrawer');
+        if (navToggle && navMobileDrawer) {
+            const toggleMenu = (open) => {
+                const isOpen = open !== undefined ? open : !navMobileDrawer.classList.contains('open');
+                navMobileDrawer.classList.toggle('open', isOpen);
+                navToggle.classList.toggle('active', isOpen);
+                navToggle.setAttribute('aria-expanded', String(isOpen));
+            };
+            navToggle.addEventListener('click', (e) => {
+                e.stopPropagation();
+                toggleMenu();
+            });
+            document.addEventListener('click', (e) => {
+                if (!navMobileDrawer.contains(e.target) && !navToggle.contains(e.target)) {
+                    toggleMenu(false);
+                }
+            });
+            navMobileDrawer.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => toggleMenu(false));
+            });
+        }
+
+        // ── Smooth scroll for anchor links ──
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                const href = this.getAttribute('href');
+                if (href === '#') { 
+                    e.preventDefault();
+                    window.scrollTo({ top: 0, behavior: 'smooth' }); 
+                    return; 
+                }
+                const target = document.querySelector(href);
+                if (target) {
+                    e.preventDefault();
+                    const y = target.getBoundingClientRect().top + window.scrollY - 70;
+                    window.scrollTo({ top: y, behavior: 'smooth' });
+                }
+            });
+        });
+
+        // ── Profit Calculator ──
+        // Biểu phí người bán thường ngành thời trang (10/2026) — khớp data/reference/platform_fees.csv
+        const FEES = {
+            Shopee: { pct: 9.82 + 6 + 1.5, fixed: 3000 },   // phí cố định + xử lý giao dịch + thuế TMĐT; phí hạ tầng 3.000đ
+            TikTok: { pct: 14 + 6 + 1.5,   fixed: 3000 }    // hoa hồng + phí giao dịch + thuế TMĐT; phí xử lý đơn 3.000đ
+        };
+        let platform = 'Shopee';
+        const $ = id => document.getElementById(id);
+        const parseVnd = v => Number(String(v).replace(/[^0-9]/g, '')) || 0;
+        const vnd = n => (n < 0 ? '−' : '') + Math.round(Math.abs(n)).toLocaleString('vi-VN') + 'đ';
+        const calcInputs = ['cPrice', 'cCost', 'cAds', 'cShip', 'cPack'];
+
+        function calculate() {
+            const price = parseVnd($('cPrice').value), cost = parseVnd($('cCost').value);
+            const other = parseVnd($('cAds').value) + parseVnd($('cShip').value) + parseVnd($('cPack').value);
+            const f = FEES[platform];
+            const fee = price * f.pct / 100 + f.fixed;
+            const naive = price - cost;
+            const profit = price - cost - fee - other;
+            const margin = price ? profit / price * 100 : 0;
+
+            $('rNaive').textContent = vnd(naive);
+            $('rReal').textContent = vnd(profit);
+            $('rReal').classList.toggle('neg', profit < 0);
+            $('bPrice').textContent = vnd(price);
+            $('bCost').textContent = vnd(cost);
+            $('bFeeRate').textContent = `(${f.pct.toFixed(1).replace('.', ',')}% + ${vnd(f.fixed)})`;
+            $('bFee').textContent = vnd(fee);
+            $('bOther').textContent = vnd(other);
+            $('bProfit').textContent = `${vnd(profit)} (${margin.toFixed(1).replace('.', ',')}%)`;
+
+            const lost = naive > 0 ? Math.round((1 - profit / naive) * 100) : 0;
+            const lostTxt = naive > 0 && profit < naive ? `Phí và chi phí ẩn đã lấy đi <b>${lost}%</b> khoản lãi bạn tưởng. ` : '';
+            let cls, title, text;
+            if (!price) { cls = 'potential'; title = 'Nhập giá bán để tính'; text = ''; }
+            else if (margin > 30) { cls = 'star'; title = '⭐ Ngôi sao'; text = 'Biên lãi tốt — nên tăng tồn kho và đẩy quảng cáo.'; }
+            else if (margin > 15) { cls = 'potential'; title = '💛 Tiềm năng'; text = 'Còn lãi nhưng mỏng — tối ưu giá, ads hoặc voucher.'; }
+            else if (margin >= 0) { cls = 'warning'; title = '⚠️ Cần xem lại'; text = 'Gần hòa vốn — chỉ một đơn hoàn là mất lãi.'; }
+            else { cls = 'danger'; title = '❌ Đang lỗ'; text = 'Mỗi đơn bán ra bạn đang mất tiền.'; }
+            const v = $('rVerdict');
+            v.className = 'calc__verdict calc__verdict--' + cls;
+            v.innerHTML = `<strong>${title}</strong>${lostTxt}${text}`;
+        }
+
+        calcInputs.forEach(id => {
+            const el = $(id);
+            el.addEventListener('input', () => {
+                const n = parseVnd(el.value);
+                el.value = n ? n.toLocaleString('vi-VN') : '';
+                calculate();
+            });
+            el.addEventListener('focus', () => el.select());
+        });
+        document.querySelectorAll('.calc__platform').forEach(btn => {
+            btn.addEventListener('click', () => {
+                platform = btn.dataset.platform;
+                document.querySelectorAll('.calc__platform').forEach(b =>
+                    b.setAttribute('aria-pressed', String(b === btn)));
+                calculate();
+            });
+        });
+        calculate();
+    </script>
+
+</body>
+</html>

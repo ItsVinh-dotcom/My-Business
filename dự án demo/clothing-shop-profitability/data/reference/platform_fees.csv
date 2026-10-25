@@ -1,0 +1,12 @@
+platform,fee_type,rate_pct,fixed_vnd_per_order,apply,effective_from,note
+Shopee,Phí cố định,9.82,0,1,2025-07-01,Người bán thường - Thời trang nữ (các ngành thời trang khác 9.82-10.80%). Mall: 7.00-8.10%
+Shopee,Phí xử lý giao dịch,6.00,0,1,2026-05-01,Tính trên giá sau giảm + phí ship người mua trả
+Shopee,Phí hạ tầng,0,3000,1,2025-07-01,3.000đ/đơn hoàn thành (đã gồm VAT)
+Shopee,Phí Voucher Xtra,2.00,0,0,2025-06-06,Chỉ áp dụng nếu shop tham gia (tối đa 50.000đ/sản phẩm) - đặt apply=1 nếu có
+Shopee,Thuế TMĐT (sàn khấu trừ),1.50,0,1,2025-07-01,Hộ kinh doanh: 1% GTGT + 0.5% TNCN. Đặt apply=0 nếu shop là doanh nghiệp
+TikTok,Phí hoa hồng nền tảng,14.00,0,1,2026-07-03,Nhà bán tiêu chuẩn - Trang phục nữ 14-15% / nam 13-15%. Mall: 16-17.1%
+TikTok,Phí giao dịch,6.00,0,1,2026-05-09,Tính trên số tiền khách thanh toán (gồm phí ship khách trả)
+TikTok,Phí xử lý đơn hàng,0,3000,1,2025-10-27,3.000đ/đơn giao thành công
+TikTok,Thuế TMĐT (sàn khấu trừ),1.50,0,1,2025-07-01,Hộ kinh doanh: 1% GTGT + 0.5% TNCN. Đặt apply=0 nếu shop là doanh nghiệp
+Lazada,Phí hoa hồng,3.00,0,1,,CHƯA CẬP NHẬT 2026 - kiểm tra Seller Center trước khi dùng
+Lazada,Phí thanh toán,1.50,0,1,,CHƯA CẬP NHẬT 2026 - kiểm tra Seller Center trước khi dùng

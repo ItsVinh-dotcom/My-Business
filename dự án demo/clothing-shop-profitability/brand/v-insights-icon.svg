@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
+<defs>
+  <linearGradient id="gBlue" x1="300" y1="300" x2="500" y2="760" gradientUnits="userSpaceOnUse">
+    <stop offset="0" stop-color="#3B82F6"/><stop offset="1" stop-color="#1D4ED8"/></linearGradient>
+  <linearGradient id="gCyan" x1="500" y1="760" x2="840" y2="300" gradientUnits="userSpaceOnUse">
+    <stop offset="0" stop-color="#0EA5E9"/><stop offset="1" stop-color="#22D3EE"/></linearGradient>
+  <radialGradient id="gBg" cx="50%" cy="38%" r="70%">
+    <stop offset="0" stop-color="#0F1F3D"/><stop offset="1" stop-color="#081226"/></radialGradient>
+</defs>
+<rect width="1024" height="1024" fill="url(#gBg)"/><g transform="translate(78,60) scale(0.82)">
+  <path d="M352.5,300.0 L271.5,300.0 L497.8,805.6 L502.2,634.4Z " fill="url(#gBlue)"/>
+  <path d="M803.9,352.9 L834.1,366.2 L798.2,273.9 L705.9,309.8 L770.0,338.0 L736.1,323.1 L638.8,544.1 L577.1,488.2 L502.2,634.4 L497.8,805.6 L598.9,607.8 L665.2,667.9Z " fill="url(#gCyan)"/>
+  
+  <path d="M856.207724135261,203.9349994216107 Q861.207724135261,228.9349994216107 886.207724135261,233.9349994216107 Q861.207724135261,238.9349994216107 856.207724135261,263.9349994216107 Q851.207724135261,238.9349994216107 826.207724135261,233.9349994216107 Q851.207724135261,228.9349994216107 856.207724135261,203.9349994216107Z" fill="#FFFFFF"/>
+</g>
+</svg>

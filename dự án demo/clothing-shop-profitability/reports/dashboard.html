@@ -1,0 +1,1404 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Báo Cáo Lợi Nhuận — Shop Quần Áo Online</title>
+    <meta name="description" content="Dashboard phân tích lợi nhuận chi tiết cho chủ shop quần áo online trên Shopee và TikTok Shop">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+    <style>
+        /* ── Reset & Base ─────────────────────────────────────────── */
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --bg-primary: #0a0e1a;
+            --bg-secondary: #111827;
+            --bg-card: #1a1f35;
+            --bg-card-hover: #222845;
+            --border: rgba(255,255,255,0.06);
+            --border-accent: rgba(99,102,241,0.3);
+
+            --text-primary: #f1f5f9;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+
+            --accent: #818cf8;
+            --accent-glow: rgba(129,140,248,0.15);
+            --green: #34d399;
+            --green-bg: rgba(52,211,153,0.1);
+            --orange: #fbbf24;
+            --orange-bg: rgba(251,191,36,0.1);
+            --red: #f87171;
+            --red-bg: rgba(248,113,113,0.1);
+            --blue: #60a5fa;
+            --blue-bg: rgba(96,165,250,0.1);
+            --purple: #a78bfa;
+            --purple-bg: rgba(167,139,250,0.1);
+            --cyan: #22d3ee;
+
+            --radius: 16px;
+            --radius-sm: 10px;
+            --shadow-card: 0 4px 30px rgba(0,0,0,0.3);
+            --shadow-glow: 0 0 40px rgba(129,140,248,0.08);
+
+            --font: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+
+        body {
+            font-family: var(--font);
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* ── Background Gradient ──────────────────────────────────── */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background:
+                radial-gradient(ellipse 80% 50% at 50% -20%, rgba(99,102,241,0.12) 0%, transparent 60%),
+                radial-gradient(ellipse 60% 40% at 80% 100%, rgba(52,211,153,0.06) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* ── Layout ───────────────────────────────────────────────── */
+        .container {
+            position: relative;
+            z-index: 1;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 32px 24px 64px;
+        }
+
+        /* ── Header ───────────────────────────────────────────────── */
+        .header {
+            text-align: center;
+            margin-bottom: 48px;
+            animation: fadeUp 0.6s ease-out;
+        }
+        .header__badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 16px;
+            background: var(--accent-glow);
+            border: 1px solid var(--border-accent);
+            border-radius: 100px;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            margin-bottom: 16px;
+        }
+        .header__title {
+            font-size: clamp(28px, 4vw, 42px);
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            background: linear-gradient(135deg, #f1f5f9, #818cf8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 8px;
+        }
+        .header__subtitle {
+            font-size: 16px;
+            color: var(--text-secondary);
+            font-weight: 400;
+        }
+        .header__meta {
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            margin-top: 16px;
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+        .header__meta span {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .header__actions {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+        }
+        .btn-print {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: linear-gradient(135deg, var(--accent), var(--accent-light));
+            color: white;
+            border: none;
+            padding: 10px 22px;
+            border-radius: 100px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(99,102,241,0.3);
+            transition: all 0.2s ease;
+        }
+        .btn-print:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(99,102,241,0.45);
+        }
+
+        /* ── KPI Cards ────────────────────────────────────────────── */
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-bottom: 32px;
+        }
+        .kpi-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 24px;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+            animation: fadeUp 0.6s ease-out backwards;
+        }
+        .kpi-card:hover {
+            transform: translateY(-2px);
+            border-color: var(--border-accent);
+            box-shadow: var(--shadow-glow);
+        }
+        .kpi-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 3px;
+            border-radius: 3px 3px 0 0;
+        }
+        .kpi-card:nth-child(1)::before { background: linear-gradient(90deg, var(--accent), var(--purple)); }
+        .kpi-card:nth-child(2)::before { background: linear-gradient(90deg, var(--green), var(--cyan)); }
+        .kpi-card:nth-child(3)::before { background: linear-gradient(90deg, var(--orange), #fb923c); }
+        .kpi-card:nth-child(4)::before { background: linear-gradient(90deg, var(--blue), var(--accent)); }
+        .kpi-card:nth-child(5)::before { background: linear-gradient(90deg, var(--red), var(--orange)); }
+
+        .kpi-card__icon {
+            width: 40px;
+            height: 40px;
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            margin-bottom: 14px;
+        }
+        .kpi-card:nth-child(1) .kpi-card__icon { background: var(--purple-bg); }
+        .kpi-card:nth-child(2) .kpi-card__icon { background: var(--green-bg); }
+        .kpi-card:nth-child(3) .kpi-card__icon { background: var(--orange-bg); }
+        .kpi-card:nth-child(4) .kpi-card__icon { background: var(--blue-bg); }
+        .kpi-card:nth-child(5) .kpi-card__icon { background: var(--red-bg); }
+
+        .kpi-card__label {
+            font-size: 12px;
+            font-weight: 500;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            margin-bottom: 6px;
+        }
+        .kpi-card__value {
+            font-size: 26px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            color: var(--text-primary);
+        }
+        .kpi-card__suffix {
+            font-size: 14px;
+            font-weight: 400;
+            color: var(--text-secondary);
+            margin-left: 2px;
+        }
+
+        /* ── Section ──────────────────────────────────────────────── */
+        .section {
+            margin-bottom: 32px;
+            animation: fadeUp 0.6s ease-out backwards;
+        }
+        .section__header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .section__icon {
+            width: 36px;
+            height: 36px;
+            border-radius: var(--radius-sm);
+            background: var(--accent-glow);
+            border: 1px solid var(--border-accent);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        .section__title {
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        /* ── Chart Cards ──────────────────────────────────────────── */
+        .charts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
+            gap: 20px;
+            margin-bottom: 32px;
+        }
+        @media (max-width: 900px) {
+            .charts-grid { grid-template-columns: 1fr; }
+        }
+        .chart-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 24px;
+            box-shadow: var(--shadow-card);
+            transition: border-color 0.25s ease;
+        }
+        .chart-card:hover {
+            border-color: var(--border-accent);
+        }
+        .chart-card__title {
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .chart-wrapper {
+            position: relative;
+            width: 100%;
+            height: 280px;
+        }
+
+        /* ── Product Table ────────────────────────────────────────── */
+        .product-table-wrapper {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: var(--shadow-card);
+        }
+        .product-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .product-table th {
+            background: rgba(255,255,255,0.03);
+            padding: 14px 16px;
+            text-align: left;
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            white-space: nowrap;
+        }
+        .product-table th:first-child { padding-left: 24px; }
+        .product-table td {
+            padding: 16px 16px;
+            font-size: 14px;
+            color: var(--text-secondary);
+            border-bottom: 1px solid var(--border);
+            white-space: nowrap;
+        }
+        .product-table td:first-child { padding-left: 24px; }
+        .product-table tr:last-child td { border-bottom: none; }
+        .product-table tr {
+            transition: background 0.15s ease;
+        }
+        .product-table tr:hover {
+            background: var(--bg-card-hover);
+        }
+
+        .product-name {
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+        .product-category {
+            font-size: 11px;
+            color: var(--text-muted);
+            margin-top: 2px;
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 4px 12px;
+            border-radius: 100px;
+            font-size: 12px;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+        .badge--star {
+            background: var(--green-bg);
+            color: var(--green);
+            border: 1px solid rgba(52,211,153,0.2);
+        }
+        .badge--potential {
+            background: var(--orange-bg);
+            color: var(--orange);
+            border: 1px solid rgba(251,191,36,0.2);
+        }
+        .badge--warning {
+            background: rgba(251,191,36,0.08);
+            color: #f59e0b;
+            border: 1px solid rgba(245,158,11,0.2);
+        }
+        .badge--danger {
+            background: var(--red-bg);
+            color: var(--red);
+            border: 1px solid rgba(248,113,113,0.2);
+        }
+
+        .money {
+            font-variant-numeric: tabular-nums;
+            font-weight: 500;
+        }
+        .money--positive { color: var(--green); }
+        .money--negative { color: var(--red); }
+
+        .margin-bar {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .margin-bar__track {
+            width: 60px;
+            height: 6px;
+            background: rgba(255,255,255,0.06);
+            border-radius: 3px;
+            overflow: hidden;
+        }
+        .margin-bar__fill {
+            height: 100%;
+            border-radius: 3px;
+            transition: width 1s ease-out;
+        }
+        .margin-bar__value {
+            font-size: 13px;
+            font-weight: 600;
+            min-width: 42px;
+        }
+
+        /* ── Cost Breakdown ───────────────────────────────────────── */
+        .cost-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 12px;
+        }
+        .cost-item {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            padding: 18px;
+            transition: border-color 0.2s ease;
+        }
+        .cost-item:hover {
+            border-color: var(--border-accent);
+        }
+        .cost-item__row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .cost-item__label {
+            font-size: 13px;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .cost-item__value {
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+        .cost-item__pct {
+            font-size: 11px;
+            color: var(--text-muted);
+            margin-top: 4px;
+            text-align: right;
+        }
+
+        /* ── Recommendations ──────────────────────────────────────── */
+        .rec-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 16px;
+        }
+        .rec-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 24px;
+            transition: transform 0.2s ease, border-color 0.2s ease;
+        }
+        .rec-card:hover {
+            transform: translateY(-2px);
+            border-color: var(--border-accent);
+        }
+        .rec-card__header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 14px;
+        }
+        .rec-card__icon {
+            width: 36px;
+            height: 36px;
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        .rec-card__title {
+            font-size: 15px;
+            font-weight: 600;
+        }
+        .rec-card__list {
+            list-style: none;
+        }
+        .rec-card__list li {
+            padding: 8px 0;
+            font-size: 14px;
+            color: var(--text-secondary);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .rec-card__list li:last-child { border-bottom: none; }
+        .rec-card__list li span:last-child {
+            font-weight: 600;
+            font-size: 13px;
+        }
+
+        /* ── Footer ───────────────────────────────────────────────── */
+        .footer {
+            text-align: center;
+            padding: 32px 0;
+            margin-top: 40px;
+            border-top: 1px solid var(--border);
+            color: var(--text-muted);
+            font-size: 13px;
+        }
+        .footer a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+
+        /* ── Animations ───────────────────────────────────────────── */
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .kpi-card:nth-child(1) { animation-delay: 0.05s; }
+        .kpi-card:nth-child(2) { animation-delay: 0.10s; }
+        .kpi-card:nth-child(3) { animation-delay: 0.15s; }
+        .kpi-card:nth-child(4) { animation-delay: 0.20s; }
+        .kpi-card:nth-child(5) { animation-delay: 0.25s; }
+
+        /* ── Scrollbar ────────────────────────────────────────────── */
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.2); }
+
+        /* ── Responsive ───────────────────────────────────────────── */
+        @media (max-width: 768px) {
+            .container { padding: 20px 16px 40px; }
+            .kpi-grid { grid-template-columns: repeat(2, 1fr); }
+            .kpi-card__value { font-size: 20px; }
+            .product-table-wrapper { overflow-x: auto; }
+            .rec-grid { grid-template-columns: 1fr; }
+            .cost-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+
+        /* ── Table responsive scroll indicator ────────────────────── */
+        .table-scroll-wrapper {
+            overflow-x: auto;
+            border-radius: var(--radius);
+        }
+
+        /* ── Number counter animation ─────────────────────────────── */
+        .counter { display: inline-block; }
+
+        /* ── Print & PDF Export Styling ──────────────────────────── */
+        @media print {
+            body {
+                background: #ffffff !important;
+                color: #0f172a !important;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+            .header__actions, .footer a {
+                display: none !important;
+            }
+            .container {
+                max-width: 100% !important;
+                padding: 0 !important;
+            }
+            .header__title {
+                background: none !important;
+                -webkit-text-fill-color: #0f172a !important;
+                color: #0f172a !important;
+            }
+            .kpi-card, .chart-card, .table-card, .rec-card, .cost-card {
+                background: #f8fafc !important;
+                border: 1px solid #cbd5e1 !important;
+                color: #0f172a !important;
+                box-shadow: none !important;
+                page-break-inside: avoid;
+            }
+            .kpi-card__label, .kpi-card__sub, .header__subtitle, .header__meta {
+                color: #475569 !important;
+            }
+            .kpi-card__value {
+                color: #0f172a !important;
+            }
+            .product-table th {
+                background: #f1f5f9 !important;
+                color: #1e293b !important;
+            }
+            .product-table td {
+                color: #334155 !important;
+                border-bottom: 1px solid #e2e8f0 !important;
+            }
+            .section {
+                page-break-inside: avoid;
+                margin-bottom: 24px !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container" id="app">
+        <!-- Header -->
+        <header class="header">
+            <div class="header__badge">📊 Phân Tích Lợi Nhuận</div>
+            <h1 class="header__title">Báo Cáo Kinh Doanh Shop Online</h1>
+            <p class="header__subtitle">Phân tích chi tiết lợi nhuận theo từng sản phẩm — Dữ liệu từ Shopee & TikTok Shop</p>
+            <div class="header__meta">
+                <span>🏪 <span id="shopName"></span></span>
+                <span>📅 <span id="period"></span></span>
+                <span>🕐 Cập nhật: <span id="reportDate"></span></span>
+            </div>
+            <div class="header__actions">
+                <button class="btn-print" onclick="window.print()" title="In hoặc lưu dạng PDF (Ctrl+P)">
+                    <span>🖨️</span> In / Xuất PDF Báo Cáo
+                </button>
+            </div>
+        </header>
+
+        <!-- KPI Cards -->
+        <div class="kpi-grid" id="kpiGrid"></div>
+
+        <!-- Charts -->
+        <section class="section" style="animation-delay: 0.3s">
+            <div class="section__header">
+                <div class="section__icon">📈</div>
+                <h2 class="section__title">Biểu Đồ Phân Tích</h2>
+            </div>
+            <div class="charts-grid">
+                <div class="chart-card">
+                    <div class="chart-card__title">📊 Lợi Nhuận Theo Sản Phẩm</div>
+                    <div class="chart-wrapper"><canvas id="profitChart"></canvas></div>
+                </div>
+                <div class="chart-card">
+                    <div class="chart-card__title">📉 Cơ Cấu Chi Phí</div>
+                    <div class="chart-wrapper"><canvas id="costChart"></canvas></div>
+                </div>
+                <div class="chart-card">
+                    <div class="chart-card__title">📈 Doanh Thu & Lợi Nhuận Theo Ngày</div>
+                    <div class="chart-wrapper"><canvas id="trendChart"></canvas></div>
+                </div>
+                <div class="chart-card">
+                    <div class="chart-card__title">🏪 So Sánh Giữa Các Sàn</div>
+                    <div class="chart-wrapper"><canvas id="platformChart"></canvas></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Cost Breakdown -->
+        <section class="section" style="animation-delay: 0.4s">
+            <div class="section__header">
+                <div class="section__icon">💰</div>
+                <h2 class="section__title">Phân Tách Chi Phí</h2>
+            </div>
+            <div class="cost-grid" id="costGrid"></div>
+        </section>
+
+        <!-- Product Table -->
+        <section class="section" style="animation-delay: 0.5s">
+            <div class="section__header">
+                <div class="section__icon">📦</div>
+                <h2 class="section__title">Chi Tiết Từng Sản Phẩm</h2>
+            </div>
+            <div class="product-table-wrapper">
+                <div class="table-scroll-wrapper">
+                    <table class="product-table" id="productTable">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Sản phẩm</th>
+                                <th>Phân loại</th>
+                                <th>Số đơn</th>
+                                <th>SL bán</th>
+                                <th>Doanh thu</th>
+                                <th>Giá vốn</th>
+                                <th>Phí sàn</th>
+                                <th>Chi phí Ads</th>
+                                <th>Lợi nhuận</th>
+                                <th>Biên LN</th>
+                            </tr>
+                        </thead>
+                        <tbody id="productTableBody"></tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- Recommendations -->
+        <section class="section" style="animation-delay: 0.6s">
+            <div class="section__header">
+                <div class="section__icon">💡</div>
+                <h2 class="section__title">Khuyến Nghị Hành Động</h2>
+            </div>
+            <div class="rec-grid" id="recGrid"></div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>Báo cáo được tạo tự động bởi hệ thống Phân Tích Lợi Nhuận Shop Online</p>
+            <p style="margin-top: 6px;" id="feeNote"></p>
+            <p style="margin-top: 6px;">© 2026 Shop Analytics VN — Dịch vụ phân tích lợi nhuận cho chủ shop online</p>
+        </footer>
+    </div>
+
+    <script>
+    // ── Embedded Dashboard Data ──────────────────────────────────────────────
+    const DATA = {
+  "report_date": "19/10/2026",
+  "period": "Tháng 9/2026",
+  "shop_name": "Shop mẫu (dữ liệu minh họa)",
+  "fee_assumptions": {
+    "Lazada": {
+      "pct": 4.5,
+      "fixed": 0.0
+    },
+    "Shopee": {
+      "pct": 17.32,
+      "fixed": 3000.0
+    },
+    "TikTok": {
+      "pct": 21.5,
+      "fixed": 3000.0
+    }
+  },
+  "overview": {
+    "total_revenue": 25910000.0,
+    "total_profit": 7805564.0,
+    "total_ads_cost": 1150000.0,
+    "total_cogs": 11425000.0,
+    "total_platform_fee": 5194436.0,
+    "total_shipping": 110000.0,
+    "total_packaging": 225000.0,
+    "avg_margin_pct": 30.1,
+    "total_orders": 45
+  },
+  "products": [
+    {
+      "name": "Áo khoác jean nữ",
+      "category": "Áo khoác",
+      "orders": 6,
+      "quantity": 10,
+      "revenue": 5190000.0,
+      "cogs": 2300000.0,
+      "platform_fee": 1025588.0,
+      "shipping": 25000.0,
+      "packaging": 30000.0,
+      "ads_cost": 255000.0,
+      "net_profit": 1554412.0,
+      "margin_pct": 30.0,
+      "classification": "💛 Tiềm năng"
+    },
+    {
+      "name": "Áo sơ mi linen nữ",
+      "category": "Áo sơ mi",
+      "orders": 6,
+      "quantity": 13,
+      "revenue": 3760000.0,
+      "cogs": 1430000.0,
+      "platform_fee": 753877.0,
+      "shipping": 15000.0,
+      "packaging": 30000.0,
+      "ads_cost": 143000.0,
+      "net_profit": 1388123.0,
+      "margin_pct": 36.9,
+      "classification": "⭐ Ngôi sao"
+    },
+    {
+      "name": "Quần jean skinny nữ",
+      "category": "Quần",
+      "orders": 7,
+      "quantity": 13,
+      "revenue": 4495000.0,
+      "cogs": 2015000.0,
+      "platform_fee": 900481.0,
+      "shipping": 20000.0,
+      "packaging": 35000.0,
+      "ads_cost": 202000.0,
+      "net_profit": 1322519.0,
+      "margin_pct": 29.4,
+      "classification": "💛 Tiềm năng"
+    },
+    {
+      "name": "Váy hoa công sở",
+      "category": "Váy",
+      "orders": 5,
+      "quantity": 9,
+      "revenue": 3745000.0,
+      "cogs": 1620000.0,
+      "platform_fee": 750787.0,
+      "shipping": 15000.0,
+      "packaging": 25000.0,
+      "ads_cost": 205000.0,
+      "net_profit": 1129213.0,
+      "margin_pct": 30.2,
+      "classification": "⭐ Ngôi sao"
+    },
+    {
+      "name": "Váy midi kẻ sọc",
+      "category": "Váy",
+      "orders": 5,
+      "quantity": 8,
+      "revenue": 3085000.0,
+      "cogs": 1280000.0,
+      "platform_fee": 613903.0,
+      "shipping": 35000.0,
+      "packaging": 25000.0,
+      "ads_cost": 133000.0,
+      "net_profit": 998097.0,
+      "margin_pct": 32.4,
+      "classification": "⭐ Ngôi sao"
+    },
+    {
+      "name": "Áo thun basic trắng",
+      "category": "Áo thun",
+      "orders": 6,
+      "quantity": 23,
+      "revenue": 2080000.0,
+      "cogs": 966000.0,
+      "platform_fee": 427162.0,
+      "shipping": 0.0,
+      "packaging": 30000.0,
+      "ads_cost": 95000.0,
+      "net_profit": 561838.0,
+      "margin_pct": 27.0,
+      "classification": "💛 Tiềm năng"
+    },
+    {
+      "name": "Áo thun basic đen",
+      "category": "Áo thun",
+      "orders": 6,
+      "quantity": 27,
+      "revenue": 2260000.0,
+      "cogs": 1134000.0,
+      "platform_fee": 465026.0,
+      "shipping": 0.0,
+      "packaging": 30000.0,
+      "ads_cost": 72000.0,
+      "net_profit": 558974.0,
+      "margin_pct": 24.7,
+      "classification": "💛 Tiềm năng"
+    },
+    {
+      "name": "Quần short kaki",
+      "category": "Quần",
+      "orders": 4,
+      "quantity": 10,
+      "revenue": 1295000.0,
+      "cogs": 680000.0,
+      "platform_fee": 257612.0,
+      "shipping": 0.0,
+      "packaging": 20000.0,
+      "ads_cost": 45000.0,
+      "net_profit": 292388.0,
+      "margin_pct": 22.6,
+      "classification": "💛 Tiềm năng"
+    }
+  ],
+  "daily_trend": [
+    {
+      "date": "2026-09-01",
+      "revenue": 980000.0,
+      "profit": 258454.0,
+      "orders": 3
+    },
+    {
+      "date": "2026-09-02",
+      "revenue": 1510000.0,
+      "profit": 418356.0,
+      "orders": 3
+    },
+    {
+      "date": "2026-09-03",
+      "revenue": 2515000.0,
+      "profit": 765821.0,
+      "orders": 3
+    },
+    {
+      "date": "2026-09-04",
+      "revenue": 1860000.0,
+      "profit": 536164.0,
+      "orders": 3
+    },
+    {
+      "date": "2026-09-05",
+      "revenue": 1420000.0,
+      "profit": 375738.0,
+      "orders": 3
+    },
+    {
+      "date": "2026-09-06",
+      "revenue": 1240000.0,
+      "profit": 382046.0,
+      "orders": 3
+    },
+    {
+      "date": "2026-09-07",
+      "revenue": 2045000.0,
+      "profit": 695440.0,
+      "orders": 3
+    },
+    {
+      "date": "2026-09-08",
+      "revenue": 1620000.0,
+      "profit": 451320.0,
+      "orders": 3
+    },
+    {
+      "date": "2026-09-09",
+      "revenue": 1405000.0,
+      "profit": 403336.0,
+      "orders": 3
+    },
+    {
+      "date": "2026-09-10",
+      "revenue": 1945000.0,
+      "profit": 590085.0,
+      "orders": 3
+    },
+    {
+      "date": "2026-09-11",
+      "revenue": 2435000.0,
+      "profit": 740159.0,
+      "orders": 3
+    },
+    {
+      "date": "2026-09-12",
+      "revenue": 1495000.0,
+      "profit": 394790.0,
+      "orders": 3
+    },
+    {
+      "date": "2026-09-13",
+      "revenue": 1385000.0,
+      "profit": 384855.0,
+      "orders": 3
+    },
+    {
+      "date": "2026-09-14",
+      "revenue": 2035000.0,
+      "profit": 718143.0,
+      "orders": 3
+    },
+    {
+      "date": "2026-09-15",
+      "revenue": 2020000.0,
+      "profit": 690857.0,
+      "orders": 3
+    }
+  ],
+  "by_platform": [
+    {
+      "platform": "Shopee",
+      "revenue": 12230000.0,
+      "profit": 3714764.0,
+      "orders": 30
+    },
+    {
+      "platform": "TikTok",
+      "revenue": 13680000.0,
+      "profit": 4090800.0,
+      "orders": 15
+    }
+  ]
+};
+
+    // ── Utility Functions ────────────────────────────────────────────────────
+    function formatMoney(value) {
+        if (Math.abs(value) >= 1000000) {
+            return (value / 1000000).toFixed(1).replace(/\.0$/, '') + 'tr';
+        }
+        return new Intl.NumberFormat('vi-VN').format(Math.round(value));
+    }
+
+    function formatMoneyFull(value) {
+        return new Intl.NumberFormat('vi-VN').format(Math.round(value)) + 'đ';
+    }
+
+    function getClassBadge(classification) {
+        if (classification.includes('Ngôi sao')) return { cls: 'badge--star', label: '⭐ Ngôi sao' };
+        if (classification.includes('Tiềm năng')) return { cls: 'badge--potential', label: '💛 Tiềm năng' };
+        if (classification.includes('Cần xem lại')) return { cls: 'badge--warning', label: '⚠️ Cần xem lại' };
+        return { cls: 'badge--danger', label: '❌ Cần loại bỏ' };
+    }
+
+    function getMarginColor(margin) {
+        if (margin > 30) return 'var(--green)';
+        if (margin > 15) return 'var(--orange)';
+        if (margin >= 0) return '#f59e0b';
+        return 'var(--red)';
+    }
+
+    // ── Chart.js Global Config ───────────────────────────────────────────────
+    Chart.defaults.color = '#94a3b8';
+    Chart.defaults.font.family = "'Inter', sans-serif";
+    Chart.defaults.font.size = 12;
+    Chart.defaults.plugins.legend.labels.usePointStyle = true;
+    Chart.defaults.plugins.legend.labels.pointStyleWidth = 10;
+    Chart.defaults.plugins.legend.labels.padding = 16;
+
+    // ── Render Header ────────────────────────────────────────────────────────
+    document.getElementById('period').textContent = DATA.period;
+    document.getElementById('shopName').textContent = DATA.shop_name || 'Shop của bạn';
+    if (DATA.fee_assumptions) {
+        const fmt = n => n.toLocaleString('vi-VN');
+        document.getElementById('feeNote').textContent = 'Giả định phí sàn: ' +
+            Object.entries(DATA.fee_assumptions)
+                .filter(([k]) => DATA.by_platform.some(p => p.platform === k))
+                .map(([k, f]) => `${k} ${f.pct.toFixed(2)}% + ${fmt(f.fixed)}đ/đơn`).join(' · ') +
+            ' (gồm phí cố định/hoa hồng, phí giao dịch, phí hạ tầng, thuế TMĐT khấu trừ).';
+    }
+    document.getElementById('reportDate').textContent = DATA.report_date;
+
+    // ── Render KPI Cards ─────────────────────────────────────────────────────
+    const kpis = [
+        { icon: '💰', label: 'Tổng Doanh Thu', value: formatMoney(DATA.overview.total_revenue), suffix: 'đ' },
+        { icon: '📈', label: 'Lợi Nhuận Ròng', value: formatMoney(DATA.overview.total_profit), suffix: 'đ' },
+        { icon: '📢', label: 'Chi Phí Quảng Cáo', value: formatMoney(DATA.overview.total_ads_cost), suffix: 'đ' },
+        { icon: '📊', label: 'Biên Lợi Nhuận TB', value: DATA.overview.avg_margin_pct, suffix: '%' },
+        { icon: '🛒', label: 'Tổng Đơn Hàng', value: DATA.overview.total_orders, suffix: 'đơn' },
+    ];
+
+    const kpiGrid = document.getElementById('kpiGrid');
+    kpis.forEach(kpi => {
+        kpiGrid.innerHTML += `
+            <div class="kpi-card">
+                <div class="kpi-card__icon">${kpi.icon}</div>
+                <div class="kpi-card__label">${kpi.label}</div>
+                <div class="kpi-card__value">
+                    ${kpi.value}<span class="kpi-card__suffix"> ${kpi.suffix}</span>
+                </div>
+            </div>
+        `;
+    });
+
+    // ── Profit Bar Chart ─────────────────────────────────────────────────────
+    const profitCtx = document.getElementById('profitChart').getContext('2d');
+    new Chart(profitCtx, {
+        type: 'bar',
+        data: {
+            labels: DATA.products.map(p => p.name.length > 18 ? p.name.slice(0, 16) + '…' : p.name),
+            datasets: [
+                {
+                    label: 'Doanh thu',
+                    data: DATA.products.map(p => p.revenue),
+                    backgroundColor: 'rgba(96,165,250,0.7)',
+                    borderRadius: 6,
+                    borderSkipped: false,
+                },
+                {
+                    label: 'Lợi nhuận',
+                    data: DATA.products.map(p => p.net_profit),
+                    backgroundColor: 'rgba(52,211,153,0.7)',
+                    borderRadius: 6,
+                    borderSkipped: false,
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                tooltip: {
+                    callbacks: {
+                        label: ctx => `${ctx.dataset.label}: ${formatMoneyFull(ctx.raw)}`
+                    }
+                }
+            },
+            scales: {
+                x: {
+                    grid: { display: false },
+                    ticks: { maxRotation: 45, font: { size: 10 } }
+                },
+                y: {
+                    grid: { color: 'rgba(255,255,255,0.04)' },
+                    ticks: {
+                        callback: v => formatMoney(v) + 'đ'
+                    }
+                }
+            }
+        }
+    });
+
+    // ── Cost Doughnut Chart ──────────────────────────────────────────────────
+    const costCtx = document.getElementById('costChart').getContext('2d');
+    const costData = [
+        { label: 'Giá vốn', value: DATA.overview.total_cogs, color: '#60a5fa' },
+        { label: 'Phí sàn', value: DATA.overview.total_platform_fee, color: '#a78bfa' },
+        { label: 'Quảng cáo', value: DATA.overview.total_ads_cost, color: '#fbbf24' },
+        { label: 'Vận chuyển', value: DATA.overview.total_shipping, color: '#f87171' },
+        { label: 'Đóng gói', value: DATA.overview.total_packaging, color: '#34d399' },
+    ];
+    new Chart(costCtx, {
+        type: 'doughnut',
+        data: {
+            labels: costData.map(c => c.label),
+            datasets: [{
+                data: costData.map(c => c.value),
+                backgroundColor: costData.map(c => c.color),
+                borderWidth: 0,
+                hoverOffset: 8,
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            cutout: '65%',
+            plugins: {
+                tooltip: {
+                    callbacks: {
+                        label: ctx => {
+                            const total = costData.reduce((s, c) => s + c.value, 0);
+                            const pct = ((ctx.raw / total) * 100).toFixed(1);
+                            return `${ctx.label}: ${formatMoneyFull(ctx.raw)} (${pct}%)`;
+                        }
+                    }
+                }
+            }
+        }
+    });
+
+    // ── Trend Line Chart ─────────────────────────────────────────────────────
+    const trendCtx = document.getElementById('trendChart').getContext('2d');
+    const trendLabels = DATA.daily_trend.map(d => {
+        const parts = d.date.split('-');
+        return parts[2] + '/' + parts[1];
+    });
+    new Chart(trendCtx, {
+        type: 'line',
+        data: {
+            labels: trendLabels,
+            datasets: [
+                {
+                    label: 'Doanh thu',
+                    data: DATA.daily_trend.map(d => d.revenue),
+                    borderColor: '#60a5fa',
+                    backgroundColor: 'rgba(96,165,250,0.08)',
+                    fill: true,
+                    tension: 0.4,
+                    pointRadius: 3,
+                    pointHoverRadius: 6,
+                    borderWidth: 2,
+                },
+                {
+                    label: 'Lợi nhuận',
+                    data: DATA.daily_trend.map(d => d.profit),
+                    borderColor: '#34d399',
+                    backgroundColor: 'rgba(52,211,153,0.08)',
+                    fill: true,
+                    tension: 0.4,
+                    pointRadius: 3,
+                    pointHoverRadius: 6,
+                    borderWidth: 2,
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            interaction: { intersect: false, mode: 'index' },
+            plugins: {
+                tooltip: {
+                    callbacks: {
+                        label: ctx => `${ctx.dataset.label}: ${formatMoneyFull(ctx.raw)}`
+                    }
+                }
+            },
+            scales: {
+                x: { grid: { display: false } },
+                y: {
+                    grid: { color: 'rgba(255,255,255,0.04)' },
+                    ticks: { callback: v => formatMoney(v) + 'đ' }
+                }
+            }
+        }
+    });
+
+    // ── Platform Comparison Chart ────────────────────────────────────────────
+    const platformCtx = document.getElementById('platformChart').getContext('2d');
+    new Chart(platformCtx, {
+        type: 'bar',
+        data: {
+            labels: DATA.by_platform.map(p => p.platform),
+            datasets: [
+                {
+                    label: 'Doanh thu',
+                    data: DATA.by_platform.map(p => p.revenue),
+                    backgroundColor: 'rgba(96,165,250,0.7)',
+                    borderRadius: 8,
+                    borderSkipped: false,
+                    barPercentage: 0.5,
+                },
+                {
+                    label: 'Lợi nhuận',
+                    data: DATA.by_platform.map(p => p.profit),
+                    backgroundColor: 'rgba(52,211,153,0.7)',
+                    borderRadius: 8,
+                    borderSkipped: false,
+                    barPercentage: 0.5,
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            indexAxis: 'y',
+            plugins: {
+                tooltip: {
+                    callbacks: {
+                        label: ctx => `${ctx.dataset.label}: ${formatMoneyFull(ctx.raw)}`
+                    }
+                }
+            },
+            scales: {
+                x: {
+                    grid: { color: 'rgba(255,255,255,0.04)' },
+                    ticks: { callback: v => formatMoney(v) + 'đ' }
+                },
+                y: { grid: { display: false } }
+            }
+        }
+    });
+
+    // ── Cost Breakdown Grid ──────────────────────────────────────────────────
+    const totalCost = DATA.overview.total_revenue - DATA.overview.total_profit;
+    const costs = [
+        { icon: '📦', label: 'Giá vốn hàng bán', value: DATA.overview.total_cogs },
+        { icon: '🏪', label: 'Phí sàn TMĐT', value: DATA.overview.total_platform_fee },
+        { icon: '📢', label: 'Chi phí quảng cáo', value: DATA.overview.total_ads_cost },
+        { icon: '🚚', label: 'Phí vận chuyển', value: DATA.overview.total_shipping },
+        { icon: '📋', label: 'Phí đóng gói', value: DATA.overview.total_packaging },
+    ];
+    const costGrid = document.getElementById('costGrid');
+    costs.forEach(c => {
+        const pct = ((c.value / totalCost) * 100).toFixed(1);
+        costGrid.innerHTML += `
+            <div class="cost-item">
+                <div class="cost-item__row">
+                    <span class="cost-item__label">${c.icon} ${c.label}</span>
+                    <span class="cost-item__value">${formatMoneyFull(c.value)}</span>
+                </div>
+                <div class="cost-item__pct">${pct}% tổng chi phí</div>
+            </div>
+        `;
+    });
+
+    // ── Product Table ────────────────────────────────────────────────────────
+    const tbody = document.getElementById('productTableBody');
+    DATA.products.forEach((p, i) => {
+        const badge = getClassBadge(p.classification);
+        const marginColor = getMarginColor(p.margin_pct);
+        const barWidth = Math.min(Math.max(p.margin_pct, 0), 100);
+
+        tbody.innerHTML += `
+            <tr>
+                <td style="color: var(--text-muted); font-size: 12px;">${i + 1}</td>
+                <td>
+                    <div class="product-name">${p.name}</div>
+                    <div class="product-category">${p.category}</div>
+                </td>
+                <td><span class="badge ${badge.cls}">${badge.label}</span></td>
+                <td style="text-align: center;">${p.orders}</td>
+                <td style="text-align: center;">${p.quantity}</td>
+                <td class="money">${formatMoneyFull(p.revenue)}</td>
+                <td class="money">${formatMoneyFull(p.cogs)}</td>
+                <td class="money">${formatMoneyFull(p.platform_fee)}</td>
+                <td class="money">${formatMoneyFull(p.ads_cost)}</td>
+                <td class="money ${p.net_profit >= 0 ? 'money--positive' : 'money--negative'}">${formatMoneyFull(p.net_profit)}</td>
+                <td>
+                    <div class="margin-bar">
+                        <div class="margin-bar__track">
+                            <div class="margin-bar__fill" style="width: ${barWidth}%; background: ${marginColor};"></div>
+                        </div>
+                        <span class="margin-bar__value" style="color: ${marginColor};">${p.margin_pct}%</span>
+                    </div>
+                </td>
+            </tr>
+        `;
+    });
+
+    // ── Recommendations ──────────────────────────────────────────────────────
+    const recGrid = document.getElementById('recGrid');
+    const stars = DATA.products.filter(p => p.classification.includes('Ngôi sao'));
+    const potentials = DATA.products.filter(p => p.classification.includes('Tiềm năng'));
+    const warnings = DATA.products.filter(p => p.classification.includes('Cần xem lại'));
+    const dangers = DATA.products.filter(p => p.classification.includes('Cần loại bỏ'));
+
+    if (stars.length > 0) {
+        recGrid.innerHTML += `
+            <div class="rec-card">
+                <div class="rec-card__header">
+                    <div class="rec-card__icon" style="background: var(--green-bg);">🚀</div>
+                    <div class="rec-card__title" style="color: var(--green);">Tăng tồn kho & đẩy ads</div>
+                </div>
+                <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 12px;">
+                    Những sản phẩm bán chạy, margin cao — nên tập trung nguồn lực vào đây
+                </p>
+                <ul class="rec-card__list">
+                    ${stars.map(p => `
+                        <li>
+                            <span>${p.name}</span>
+                            <span style="color: var(--green);">margin ${p.margin_pct}%</span>
+                        </li>
+                    `).join('')}
+                </ul>
+            </div>
+        `;
+    }
+
+    if (potentials.length > 0) {
+        recGrid.innerHTML += `
+            <div class="rec-card">
+                <div class="rec-card__header">
+                    <div class="rec-card__icon" style="background: var(--orange-bg);">🔧</div>
+                    <div class="rec-card__title" style="color: var(--orange);">Tối ưu để tăng lãi</div>
+                </div>
+                <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 12px;">
+                    Sản phẩm có tiềm năng — cần test giá bán, thêm voucher, tối ưu chi phí
+                </p>
+                <ul class="rec-card__list">
+                    ${potentials.map(p => `
+                        <li>
+                            <span>${p.name}</span>
+                            <span style="color: var(--orange);">margin ${p.margin_pct}%</span>
+                        </li>
+                    `).join('')}
+                </ul>
+            </div>
+        `;
+    }
+
+    if (warnings.length > 0) {
+        recGrid.innerHTML += `
+            <div class="rec-card">
+                <div class="rec-card__header">
+                    <div class="rec-card__icon" style="background: rgba(245,158,11,0.1);">⚠️</div>
+                    <div class="rec-card__title" style="color: #f59e0b;">Cần xem lại chi phí</div>
+                </div>
+                <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 12px;">
+                    Margin thấp — review lại giá vốn, phí ship, chi phí ads
+                </p>
+                <ul class="rec-card__list">
+                    ${warnings.map(p => `
+                        <li>
+                            <span>${p.name}</span>
+                            <span style="color: #f59e0b;">margin ${p.margin_pct}%</span>
+                        </li>
+                    `).join('')}
+                </ul>
+            </div>
+        `;
+    }
+
+    if (dangers.length > 0) {
+        recGrid.innerHTML += `
+            <div class="rec-card">
+                <div class="rec-card__header">
+                    <div class="rec-card__icon" style="background: var(--red-bg);">🛑</div>
+                    <div class="rec-card__title" style="color: var(--red);">Cân nhắc ngừng kinh doanh</div>
+                </div>
+                <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 12px;">
+                    Sản phẩm đang lỗ — ngừng bán hoặc tái định giá ngay
+                </p>
+                <ul class="rec-card__list">
+                    ${dangers.map(p => `
+                        <li>
+                            <span>${p.name}</span>
+                            <span style="color: var(--red);">margin ${p.margin_pct}%</span>
+                        </li>
+                    `).join('')}
+                </ul>
+            </div>
+        `;
+    }
+
+    // Nếu không có cảnh báo/danger, thêm card tổng kết tích cực
+    if (warnings.length === 0 && dangers.length === 0) {
+        recGrid.innerHTML += `
+            <div class="rec-card">
+                <div class="rec-card__header">
+                    <div class="rec-card__icon" style="background: var(--green-bg);">✅</div>
+                    <div class="rec-card__title" style="color: var(--green);">Tất cả sản phẩm đều có lãi!</div>
+                </div>
+                <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 12px;">
+                    Không có sản phẩm nào đang lỗ hoặc cần loại bỏ. 
+                    Tiếp tục duy trì chiến lược hiện tại và tối ưu chi phí quảng cáo.
+                </p>
+                <ul class="rec-card__list">
+                    <li>
+                        <span>Biên lợi nhuận trung bình</span>
+                        <span style="color: var(--green);">${DATA.overview.avg_margin_pct}%</span>
+                    </li>
+                    <li>
+                        <span>Tỷ lệ chi phí Ads / Doanh thu</span>
+                        <span style="color: var(--orange);">${((DATA.overview.total_ads_cost / DATA.overview.total_revenue) * 100).toFixed(1)}%</span>
+                    </li>
+                </ul>
+            </div>
+        `;
+    }
+    </script>
+</body>
+</html>

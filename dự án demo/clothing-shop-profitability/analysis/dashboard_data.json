@@ -1,0 +1,258 @@
+{
+  "report_date": "19/10/2026",
+  "period": "Tháng 9/2026",
+  "shop_name": "Shop mẫu (dữ liệu minh họa)",
+  "fee_assumptions": {
+    "Lazada": {
+      "pct": 4.5,
+      "fixed": 0.0
+    },
+    "Shopee": {
+      "pct": 17.32,
+      "fixed": 3000.0
+    },
+    "TikTok": {
+      "pct": 21.5,
+      "fixed": 3000.0
+    }
+  },
+  "overview": {
+    "total_revenue": 25910000.0,
+    "total_profit": 7805564.0,
+    "total_ads_cost": 1150000.0,
+    "total_cogs": 11425000.0,
+    "total_platform_fee": 5194436.0,
+    "total_shipping": 110000.0,
+    "total_packaging": 225000.0,
+    "avg_margin_pct": 30.1,
+    "total_orders": 45
+  },
+  "products": [
+    {
+      "name": "Áo khoác jean nữ",
+      "category": "Áo khoác",
+      "orders": 6,
+      "quantity": 10,
+      "revenue": 5190000.0,
+      "cogs": 2300000.0,
+      "platform_fee": 1025588.0,
+      "shipping": 25000.0,
+      "packaging": 30000.0,
+      "ads_cost": 255000.0,
+      "net_profit": 1554412.0,
+      "margin_pct": 30.0,
+      "classification": "💛 Tiềm năng"
+    },
+    {
+      "name": "Áo sơ mi linen nữ",
+      "category": "Áo sơ mi",
+      "orders": 6,
+      "quantity": 13,
+      "revenue": 3760000.0,
+      "cogs": 1430000.0,
+      "platform_fee": 753877.0,
+      "shipping": 15000.0,
+      "packaging": 30000.0,
+      "ads_cost": 143000.0,
+      "net_profit": 1388123.0,
+      "margin_pct": 36.9,
+      "classification": "⭐ Ngôi sao"
+    },
+    {
+      "name": "Quần jean skinny nữ",
+      "category": "Quần",
+      "orders": 7,
+      "quantity": 13,
+      "revenue": 4495000.0,
+      "cogs": 2015000.0,
+      "platform_fee": 900481.0,
+      "shipping": 20000.0,
+      "packaging": 35000.0,
+      "ads_cost": 202000.0,
+      "net_profit": 1322519.0,
+      "margin_pct": 29.4,
+      "classification": "💛 Tiềm năng"
+    },
+    {
+      "name": "Váy hoa công sở",
+      "category": "Váy",
+      "orders": 5,
+      "quantity": 9,
+      "revenue": 3745000.0,
+      "cogs": 1620000.0,
+      "platform_fee": 750787.0,
+      "shipping": 15000.0,
+      "packaging": 25000.0,
+      "ads_cost": 205000.0,
+      "net_profit": 1129213.0,
+      "margin_pct": 30.2,
+      "classification": "⭐ Ngôi sao"
+    },
+    {
+      "name": "Váy midi kẻ sọc",
+      "category": "Váy",
+      "orders": 5,
+      "quantity": 8,
+      "revenue": 3085000.0,
+      "cogs": 1280000.0,
+      "platform_fee": 613903.0,
+      "shipping": 35000.0,
+      "packaging": 25000.0,
+      "ads_cost": 133000.0,
+      "net_profit": 998097.0,
+      "margin_pct": 32.4,
+      "classification": "⭐ Ngôi sao"
+    },
+    {
+      "name": "Áo thun basic trắng",
+      "category": "Áo thun",
+      "orders": 6,
+      "quantity": 23,
+      "revenue": 2080000.0,
+      "cogs": 966000.0,
+      "platform_fee": 427162.0,
+      "shipping": 0.0,
+      "packaging": 30000.0,
+      "ads_cost": 95000.0,
+      "net_profit": 561838.0,
+      "margin_pct": 27.0,
+      "classification": "💛 Tiềm năng"
+    },
+    {
+      "name": "Áo thun basic đen",
+      "category": "Áo thun",
+      "orders": 6,
+      "quantity": 27,
+      "revenue": 2260000.0,
+      "cogs": 1134000.0,
+      "platform_fee": 465026.0,
+      "shipping": 0.0,
+      "packaging": 30000.0,
+      "ads_cost": 72000.0,
+      "net_profit": 558974.0,
+      "margin_pct": 24.7,
+      "classification": "💛 Tiềm năng"
+    },
+    {
+      "name": "Quần short kaki",
+      "category": "Quần",
+      "orders": 4,
+      "quantity": 10,
+      "revenue": 1295000.0,
+      "cogs": 680000.0,
+      "platform_fee": 257612.0,
+      "shipping": 0.0,
+      "packaging": 20000.0,
+      "ads_cost": 45000.0,
+      "net_profit": 292388.0,
+      "margin_pct": 22.6,
+      "classification": "💛 Tiềm năng"
+    }
+  ],
+  "daily_trend": [
+    {
+      "date": "2026-09-01",
+      "revenue": 980000.0,
+      "profit": 258454.0,
+      "orders": 3
+    },
+    {
+      "date": "2026-09-02",
+      "revenue": 1510000.0,
+      "profit": 418356.0,
+      "orders": 3
+    },
+    {
+      "date": "2026-09-03",
+      "revenue": 2515000.0,
+      "profit": 765821.0,
+      "orders": 3
+    },
+    {
+      "date": "2026-09-04",
+      "revenue": 1860000.0,
+      "profit": 536164.0,
+      "orders": 3
+    },
+    {
+      "date": "2026-09-05",
+      "revenue": 1420000.0,
+      "profit": 375738.0,
+      "orders": 3
+    },
+    {
+      "date": "2026-09-06",
+      "revenue": 1240000.0,
+      "profit": 382046.0,
+      "orders": 3
+    },
+    {
+      "date": "2026-09-07",
+      "revenue": 2045000.0,
+      "profit": 695440.0,
+      "orders": 3
+    },
+    {
+      "date": "2026-09-08",
+      "revenue": 1620000.0,
+      "profit": 451320.0,
+      "orders": 3
+    },
+    {
+      "date": "2026-09-09",
+      "revenue": 1405000.0,
+      "profit": 403336.0,
+      "orders": 3
+    },
+    {
+      "date": "2026-09-10",
+      "revenue": 1945000.0,
+      "profit": 590085.0,
+      "orders": 3
+    },
+    {
+      "date": "2026-09-11",
+      "revenue": 2435000.0,
+      "profit": 740159.0,
+      "orders": 3
+    },
+    {
+      "date": "2026-09-12",
+      "revenue": 1495000.0,
+      "profit": 394790.0,
+      "orders": 3
+    },
+    {
+      "date": "2026-09-13",
+      "revenue": 1385000.0,
+      "profit": 384855.0,
+      "orders": 3
+    },
+    {
+      "date": "2026-09-14",
+      "revenue": 2035000.0,
+      "profit": 718143.0,
+      "orders": 3
+    },
+    {
+      "date": "2026-09-15",
+      "revenue": 2020000.0,
+      "profit": 690857.0,
+      "orders": 3
+    }
+  ],
+  "by_platform": [
+    {
+      "platform": "Shopee",
+      "revenue": 12230000.0,
+      "profit": 3714764.0,
+      "orders": 30
+    },
+    {
+      "platform": "TikTok",
+      "revenue": 13680000.0,
+      "profit": 4090800.0,
+      "orders": 15
+    }
+  ]
+}
