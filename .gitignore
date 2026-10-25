@@ -27,3 +27,13 @@ $RECYCLE.BIN/
 .idea/
 *.swp
 *.swo
+
+# Client Sensitive Data (chỉ theo dõi .gitkeep và README.md trong clients)
+01_business/clients/*/
+**/clients/*/
+
+# Temporary & Log files
+*.log
+*.tmp
+*.bak
+~$*

@@ -20,8 +20,6 @@ Nhiều chủ shop bán hàng online nhưng không biết **sản phẩm nào th
 ```
 clothing-shop-profitability/
 │
-├── index.html                   # Landing page bán dịch vụ (có máy tính lãi nhanh)
-│
 ├── data/
 │   ├── raw/                     # File gốc của khách — KHÔNG chỉnh sửa, KHÔNG đưa lên Git
 │   │   ├── sample_orders.csv    # Đơn hàng mẫu (minh họa) — định dạng chuẩn đầu vào
@@ -44,14 +42,20 @@ clothing-shop-profitability/
 │
 ├── scripts/
 │   ├── run_analysis.py          # ✅ PIPELINE CHÍNH — chạy 1 lệnh ra toàn bộ kết quả
-│   ├── clean_data.py            # (cũ) bản nháp đọc file Excel Shopee — chưa map cột thật
-│   └── calculate_profit.py      # (cũ) bản nháp, phí sàn 4% — KHÔNG dùng
+│   ├── clean_data.py            # Bản đọc & làm sạch dữ liệu sàn
+│   ├── calculate_profit.py      # Module tính toán lợi nhuận
+│   └── export_report.py         # Module xuất báo cáo
 │
-├── docs/                        # methodology.md · onboarding_checklist.md · faq.md
-├── clients/                     # Thông tin từng khách hàng (ẩn khỏi Git)
+├── tests/                       # Unit tests & pipeline tests (50 tests passed)
+│   ├── test_clean_data.py
+│   └── test_pipeline.py
+│
+├── requirements.txt
 ├── .gitignore
 └── README.md
 ```
+
+> 💡 **Ghi chú:** Các tài liệu kinh doanh (`docs/`), thông tin khách hàng (`clients/`), thương hiệu (`brand/`) và landing page (`website/`) được quản lý tập trung tại thư mục `01_business/`.
 
 ---
 
