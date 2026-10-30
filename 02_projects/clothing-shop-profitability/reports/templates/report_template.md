@@ -2,7 +2,7 @@
 
 > **Kỳ phân tích:** {KỲ BÁO CÁO}  
 > **Ngày xuất:** {NGÀY}  
-> **Thực hiện bởi:** Shop Analytics VN — Lê Gia Tiến Vinh
+> **Thực hiện bởi:** V-Insights — Lê Gia Tiến Vinh
 
 ---
 

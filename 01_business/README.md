@@ -1,4 +1,4 @@
-# 💼 Business Hub — V-Insights (Shop Analytics VN)
+# 💼 Business Hub — V-Insights
 
 > Trung tâm quản lý thông tin kinh doanh, dịch vụ phân tích lợi nhuận cho các chủ shop online (Shopee, TikTok Shop).
 

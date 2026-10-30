@@ -123,7 +123,7 @@ python scripts/run_analysis.py --orders data/raw/shop_abc_orders.csv --cost data
 
 ## 📞 Liên Hệ
 
-> Dịch vụ được cung cấp bởi **Lê Gia Tiến Vinh** — Shop Analytics VN
+> Dịch vụ được cung cấp bởi **Lê Gia Tiến Vinh** — V-Insights
 > 📧 Email: legiatienvinh@gmail.com
 > 💬 Zalo: 0356 177 552
 

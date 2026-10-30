@@ -102,7 +102,7 @@ def generate_executive_markdown(data: dict, shop_name: str) -> str:
 3. **Tối ưu đơn hàng combo:** Thiết lập combo 2 sản phẩm để tiết kiệm phí cố định mỗi đơn (3.000đ/đơn).
 
 ---
-*Báo cáo được tạo bởi dịch vụ Shop Analytics VN.*
+*Báo cáo được tạo bởi dịch vụ V-Insights.*
 """
     return md
 
