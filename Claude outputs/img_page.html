@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { width: 1080px; height: 1080px; background: #081226; font-family: "Inter", "Segoe UI", Arial, sans-serif; color: #ffffff; overflow: hidden; }
+  .wrap { position: relative; width: 1080px; height: 1080px; padding: 84px 88px; background: radial-gradient(circle at 85% 10%, rgba(14,165,233,.22), transparent 45%), radial-gradient(circle at 10% 95%, rgba(59,130,246,.18), transparent 40%), #081226; }
+  .brand { font-size: 34px; font-weight: 800; letter-spacing: .5px; }
+  .brand span { background: linear-gradient(90deg,#0EA5E9,#22D3EE); -webkit-background-clip: text; color: transparent; }
+  .tag { font-size: 22px; color: #94a3b8; margin-top: 6px; }
+  h1 { font-size: 66px; line-height: 1.12; font-weight: 800; margin-top: 64px; letter-spacing: -1px; }
+  h1 em { font-style: normal; color: #22D3EE; }
+  .sub { font-size: 28px; color: #cbd5e1; margin-top: 22px; line-height: 1.4; }
+  .chart { margin-top: 56px; background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.08); border-radius: 28px; padding: 40px 44px; }
+  .chart-title { font-size: 24px; color: #94a3b8; margin-bottom: 26px; }
+  .row { display: flex; align-items: center; gap: 22px; margin-bottom: 26px; }
+  .row:last-child { margin-bottom: 0; }
+  .name { width: 300px; font-size: 26px; font-weight: 600; }
+  .name small { display: block; font-size: 19px; color: #94a3b8; font-weight: 400; margin-top: 4px; }
+  .bar-wrap { flex: 1; height: 56px; background: rgba(255,255,255,.06); border-radius: 14px; overflow: hidden; }
+  .bar { height: 100%; border-radius: 14px; display: flex; align-items: center; justify-content: flex-end; padding-right: 20px; font-size: 28px; font-weight: 800; }
+  .bar.hi { background: linear-gradient(90deg,#0EA5E9,#22D3EE); color: #081226; }
+  .bar.lo { background: linear-gradient(90deg,#1D4ED8,#3B82F6); color: #fff; }
+  .foot { position: absolute; left: 88px; right: 88px; bottom: 74px; display: flex; justify-content: space-between; align-items: flex-end; }
+  .foot .msg { font-size: 26px; color: #e2e8f0; line-height: 1.4; max-width: 640px; }
+  .foot .msg b { color: #22D3EE; }
+  .cta { background: linear-gradient(90deg,#3B82F6,#1D4ED8); padding: 22px 34px; border-radius: 18px; font-size: 26px; font-weight: 700; }
+  .note { position: absolute; right: 88px; top: 84px; font-size: 18px; color: #64748b; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="note">Dữ liệu minh họa</div>
+  <div class="brand"><span>V-Insights</span></div>
+  <div class="tag">E-commerce Profit Analytics</div>
+
+  <h1>Bán chạy nhất <em>chưa chắc</em> là lãi nhất</h1>
+  <div class="sub">Đây là dữ liệu minh họa từ một shop thời trang trên Shopee/TikTok Shop, sau khi trừ phí sàn, ship, đóng gói và quảng cáo.</div>
+
+  <div class="chart">
+    <div class="chart-title">Biên lợi nhuận theo sản phẩm (tháng 9/2026)</div>
+    <div class="row">
+      <div class="name">Áo sơ mi linen<small>13 cái bán ra</small></div>
+      <div class="bar-wrap"><div class="bar hi" style="width: 92%;">36,9%</div></div>
+    </div>
+    <div class="row">
+      <div class="name">Áo thun basic đen<small>27 cái bán ra · nhiều nhất</small></div>
+      <div class="bar-wrap"><div class="bar lo" style="width: 62%;">24,7%</div></div>
+    </div>
+  </div>
+
+  <div class="foot">
+    <div class="msg">Shop này bán nhiều áo thun hơn áo sơ mi, nhưng <b>áo sơ mi mới là món mang lợi nhuận</b>.</div>
+    <div class="cta">Nhận phân tích miễn phí →</div>
+  </div>
+</div>
+</body>
+</html>
