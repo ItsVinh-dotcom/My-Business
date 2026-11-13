@@ -19,7 +19,7 @@
 - [ ] Định dạng báo cáo: Excel / PDF / Google Slides
 - [ ] Ngôn ngữ: Tiếng Việt / Tiếng Anh
 - [ ] Deadline giao báo cáo
-- [ ] Cần giải thích trực tiếp (call) hay gửi file?
+- [ ] Giao qua tin nhắn (Messenger/Zalo). Không gọi điện, không họp: khách hỏi gì thì trả lời bằng văn bản
 
 ---
 
