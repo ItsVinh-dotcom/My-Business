@@ -2,7 +2,7 @@
 
 > **Kỳ phân tích:** {KỲ BÁO CÁO}  
 > **Ngày xuất:** {NGÀY}  
-> **Thực hiện bởi:** V-Insights — Lê Gia Tiến Vinh
+> **Thực hiện bởi:** V-Insights
 
 ---
 
@@ -58,5 +58,4 @@ Xem file dashboard đính kèm: `dashboard.html`
 ---
 
 > **Liên hệ hỗ trợ:**  
-> 💬 Zalo: 0356 177 552  
-> ✉️ Email: legiatienvinh@gmail.com
+> 💬 Nhắn tin Fanpage V-Insights: https://www.facebook.com/profile.php?id=61595690964792

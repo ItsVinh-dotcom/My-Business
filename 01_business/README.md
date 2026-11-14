@@ -33,7 +33,7 @@
   - Máy tính lợi nhuận nhanh cho chủ shop
   - Bảng so sánh phí sàn Shopee vs TikTok Shop cập nhật mới nhất
   - Các gói dịch vụ & cam kết bảo mật
-  - Nút kêu gọi hành động (CTA) kết nối Zalo
+  - Nút kêu gọi hành động (CTA) dẫn về Messenger của Fanpage
 
 ### 3. 👥 Quản Lý Khách Hàng (`clients/`)
 - Quản lý quy trình nhận dữ liệu và bàn giao báo cáo cho từng khách hàng theo từng tháng.

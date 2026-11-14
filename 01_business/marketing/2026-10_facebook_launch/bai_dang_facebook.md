@@ -4,7 +4,6 @@
 Nguồn HTML của ảnh nằm trong thư mục `source/` nếu cần chỉnh rồi chụp lại.
 
 Cần điền trước khi đăng:
-- [số Zalo của bạn]
 - [link landing của bạn]
 
 Lưu ý: ảnh group có dòng "Đang nhận 3 shop dùng thử miễn phí" (ưu đãi có hạn). Ảnh page đang ghi nút "Nhận phân tích miễn phí". Nếu không muốn miễn phí lâu dài, nên đổi nút này.
@@ -26,7 +25,7 @@ V-Insights giúp chủ shop làm đúng việc đó:
 
 Dữ liệu của shop chỉ dùng để phân tích, không chia sẻ với bên thứ ba và được xóa sau khi bàn giao báo cáo.
 
-Bạn đang bán trên Shopee hoặc TikTok Shop và muốn biết lãi thật của shop mình? Nhắn tin cho V-Insights hoặc gọi Zalo [số Zalo của bạn] để được tư vấn. Hoặc xem báo cáo mẫu tại [link landing của bạn].
+Bạn đang bán trên Shopee hoặc TikTok Shop và muốn biết lãi thật của shop mình? Inbox page V-Insights để được tư vấn. Hoặc xem báo cáo mẫu tại [link landing của bạn].
 
 ---
 
